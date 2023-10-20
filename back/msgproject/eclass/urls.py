@@ -1,7 +1,7 @@
-from django.urls import path, include
-from .views import Student, idStudent
+from django.urls import path
+from .views import RegisterView, LoginView
 
 urlpatterns = [
-    path("student/", Student.as_view()),
-    path("student/<int:id>/", idStudent.as_view()),
+    path("signup/", RegisterView.as_view()),
+    path("login/", LoginView.as_view()),
 ]
