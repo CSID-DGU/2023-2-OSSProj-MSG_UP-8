@@ -1,5 +1,7 @@
-.github
+/back/testvenv
 
+.github
+.vscode
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,django,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,django,python
@@ -8,7 +10,7 @@
 *.log
 *.pot
 *.pyc
-__pycache__/
+back\msgproject\msgproject\__pycache__\
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
