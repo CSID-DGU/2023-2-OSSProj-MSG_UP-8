@@ -12,15 +12,11 @@ import signup_name  from "../assets/image/signup_name.svg";
 
 function Signup(props) {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const onClickLogin = () => {
-    //   navigate(`/Login`);
-    // };
-  
-    // const onClickSignup = () => {
-    //   navigate(`/Signup`);
-    // };
+      const onClickSignup = () => {
+        navigate(`/lecture`);
+    };
   
     const [inputs, setInputs] = useState({
       id: '',
@@ -121,7 +117,10 @@ const post_signup = () => {}
 
                             </s.login_input>
 
-                            <s.login_btn onClick={post_signup}>
+                            <s.login_btn onClick={() => {
+                                post_signup();
+                                onClickSignup();
+                            }}>
                                 회원가입
                             </s.login_btn>
                 

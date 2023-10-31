@@ -3,6 +3,7 @@ const COLORS = {
     CONTAINER_WHITE: "#FFFFFF",
     BLACK: "#3C3C3C",
     GRAY: "#CDCDCD",
+    DEEP_GRAY: "#7C7B79",
 
     MAIN_ORANGE: "#EB9332",
     MAIN_YELLOW: "#EDC219",
@@ -11,6 +12,7 @@ const COLORS = {
     WARNING_RED: "#E72F4B",
     BLUE: "#286090",
     DEEP_BLUE: "#12314F",
+    LIGHT_BLUE: "#00BFF3",
 };
 const FONT_SIZE = {
     EXTRA_SMALL_SIZE: "2.5rem",

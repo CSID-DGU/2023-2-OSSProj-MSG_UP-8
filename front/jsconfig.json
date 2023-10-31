@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@style/*": ["src/style/*"],
+      "@public/*": ["public/*"]
+      }
+  },
+  "include": [
+      "**/*.js",
+      "**/*.jsx",
+      "src"
+  ],
+  "exclude": ["node_modules"]
+}
+  
