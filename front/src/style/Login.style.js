@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import theme from "./theme.js";
-import DGU_BG from '../assets/image/DGU_BG.png';
+import DGU_BG from '../assets/image/DGU_BG.jpg';
 
 
 export const Wrapper = styled.div`

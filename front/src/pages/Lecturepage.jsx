@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import * as s from '../style/Lecture.style.js'
 import LectureChoice from "../components/LectureChoice";
-import eclass_logo from '../assets/image/eclass_logo.svg';
-import eclass_name from '../assets/image/eclass_name.svg';
+import eclass_logo from '../assets/image/eclass_logo.png';
 
 function Lecturepage(props) {
 
@@ -35,10 +34,6 @@ function Lecturepage(props) {
               <s.TitleBox>
                 <img
                 src={eclass_logo}
-                alt=""
-                />
-                <img
-                src={eclass_name}
                 alt=""
                 />
               </s.TitleBox>

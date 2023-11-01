@@ -7,7 +7,7 @@ const COLORS = {
 
     MAIN_ORANGE: "#EB9332",
     MAIN_YELLOW: "#EDC219",
-    DEEP_ORANGE: "E15E39",
+    DEEP_ORANGE: "#E15E39",
 
     WARNING_RED: "#E72F4B",
     BLUE: "#286090",
