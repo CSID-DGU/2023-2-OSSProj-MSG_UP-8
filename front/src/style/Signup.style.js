@@ -34,7 +34,7 @@ export const login_container = styled.div`
     margin-top: 50px;
     background-color: ${theme.COLORS.CONTAINER_WHITE};
     width: 600px;
-    height: 350px;
+    height: 380px;
     border-radius: 10px;
     border-style: solid;
     border-width: 1px;
@@ -55,7 +55,7 @@ export const login_name_choice = styled.div`
     cursor: pointer;
 `;
 
-export const login_name = styled.div`
+export const signup_title = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,12 +64,12 @@ export const login_name = styled.div`
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     height: 100%;
-    border-right: 1px solid ${theme.COLORS.GRAY};
+    border-left: 1px solid ${theme.COLORS.GRAY};
     background-color: ${theme.COLORS.CONTAINER_WHITE};
 
 `;
 
-export const signup_name = styled.div`
+export const login_title = styled.div`
     display: flex;
     width: 50%;
     height: 100%;
@@ -95,11 +95,18 @@ export const login_input = styled.div`
     margin-top: 5%; 
 `;
 
-export const login_id= styled.div`
+export const login_id = styled.div`
     border: none;
     display: flex;
     align-items: center;
 `;
+
+export const signup_name = styled.div`
+    border-top: 1px solid ${theme.COLORS.GRAY};
+    display: flex;
+    align-items: center;
+`;
+
 export const login_id_img = styled.img`
     width: 20px;
     height: 20px;
@@ -118,6 +125,13 @@ export const login_pwd= styled.div`
     border-top: 1px solid ${theme.COLORS.GRAY};
 `;
 export const login_pwd_img = styled.img`
+    width: 20px;
+    height: 20px;
+    margin-left: 3%;
+    margin-right: 3%;
+`;
+
+export const signup_name_img = styled.img`
     width: 20px;
     height: 20px;
     margin-left: 3%;

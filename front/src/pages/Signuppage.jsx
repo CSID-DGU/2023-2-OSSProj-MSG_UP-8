@@ -1,32 +1,30 @@
 import React from "react";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import * as s from '../style/Login.style.js'
+import * as s from '../style/Signup.style.js'
 import login_icon from '../assets/image/login_icon.svg';
 import login_pwd from '../assets/image/login_pwd.svg';
 import eclass_logo from '../assets/image/eclass_logo.svg';
 import eclass_name from '../assets/image/eclass_name.svg';
+import signup_name  from "../assets/image/signup_name.svg";
 
 
 
-function Login(props) {
+function Signup(props) {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const onClickLogin = () => {
-    //   navigate(`/Login`);
-    // };
-  
-    // const onClickSignup = () => {
-    //   navigate(`/Signup`);
-    // };
+      const onClickSignup = () => {
+        navigate(`/lecture`);
+    };
   
     const [inputs, setInputs] = useState({
       id: '',
       password: '',
+      name:'',
     });
   
-    const { id, password } = inputs;
+    const { id, password, name } = inputs;
   
     const onChange = e => {
       const { name, value } = e.target;
@@ -36,7 +34,7 @@ function Login(props) {
       });
     };
 
-const post_login = () => {}
+const post_signup = () => {}
 
 
     return(
@@ -56,12 +54,12 @@ const post_login = () => {}
 
                     <s.login_container>
                         <s.login_name_choice>
-                            <s.login_name>
+                            <s.login_title>
                                 로그인
-                            </s.login_name>
-                            <s.signup_name>
+                            </s.login_title>
+                            <s.signup_title>
                                 회원가입
-                            </s.signup_name>
+                            </s.signup_title>
                         </s.login_name_choice>
 
                         <s.login_box>
@@ -98,14 +96,32 @@ const post_login = () => {}
                                         />            
                                     </s.login_pwd>
 
+                                    <s.signup_name>
+                                        <s.signup_name_img
+                                        src={signup_name}
+                                        alt=""
+                                        />
+                                        <s.login_input_box
+                                        type="text"
+                                        placeholder="이름"
+                                        name="name"
+                                        value={name}
+                                        onChange={onChange}
+                                        autoComplete="current-name"
+                                        />            
+                                    </s.signup_name>
+
                                 </form>
 
                                    
 
                             </s.login_input>
 
-                            <s.login_btn onClick={post_login}>
-                                로그인
+                            <s.login_btn onClick={() => {
+                                post_signup();
+                                onClickSignup();
+                            }}>
+                                회원가입
                             </s.login_btn>
                 
 
@@ -118,4 +134,4 @@ const post_login = () => {}
 
 }
 
-export default Login;
+export default Signup;
