@@ -89,3 +89,22 @@ export const Item = styled.div`
     }
 `;
 
+// 로그인시
+
+export const main_logout_btn = styled.button`
+    margin-left: 2.5%;
+    width: 200px;
+    height: 50px;
+    background-color: ${theme.COLORS.DEEP_BLUE};
+    font-weight: ${theme.FONT_WEIGHT.BOLD};
+    color: ${theme.COLORS.CONTAINER_WHITE};
+    font-size: ${theme.FONT_SIZE.SUB_TITLE_SIZE};
+    border: none;
+    border-radius: 5px;
+`;
+
+export const Main_Lecture_item = styled.div`
+    overflow: scroll;
+    width: 90%;
+    margin-top: 5%;
+`;

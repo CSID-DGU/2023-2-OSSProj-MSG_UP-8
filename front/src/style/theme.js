@@ -24,6 +24,7 @@ const FONT_SIZE = {
 const FONT_WEIGHT = {
     DEFAULT: 400,
     BOLD: 600,
+    BOLDER: 800,
 } 
   
 const theme = {
