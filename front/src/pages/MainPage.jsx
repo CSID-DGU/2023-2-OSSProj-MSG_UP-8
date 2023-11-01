@@ -5,6 +5,7 @@ import * as s from '../style/Main.Style.js';
 import eclass_logo from '../assets/image/eclass_logo.png';
 import DGU_logo from "../assets/image/dgu_logo.svg";
 import LectureItem from "../components/LectureItem";
+import Todo from "../components/Todo";
 
 function MainPage(props) {
 
@@ -64,10 +65,9 @@ function MainPage(props) {
 
                                         {/* todo */}
                                         <s.Item>
-                                            <img
-                                                src={DGU_logo}
-                                                alt="" />
-                                            <s.message>로그인 후 사용가능합니다.</s.message>
+                                            <s.Main_Todo_item>
+                                                <Todo />
+                                            </s.Main_Todo_item>
                                         </s.Item>
 
 

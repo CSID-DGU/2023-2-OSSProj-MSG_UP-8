@@ -104,7 +104,15 @@ export const main_logout_btn = styled.button`
 `;
 
 export const Main_Lecture_item = styled.div`
-    overflow: scroll;
+    overflow-y: scroll;
     width: 90%;
     margin-top: 5%;
+`;
+export const Main_Todo_item = styled.div`
+    overflow-y: scroll;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
 `;
