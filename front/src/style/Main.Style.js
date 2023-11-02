@@ -108,8 +108,15 @@ export const Main_Lecture_item = styled.div`
     width: 90%;
     margin-top: 5%;
 `;
+export const Main_LogoutCal_item = styled.div`
+    height: 100%;
+    width: 90%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+`;
 export const Main_TimeTable_item = styled.div`
     width: 90%;
+    overflow-y: scroll;
     height: 100%;
     margin-top: 2%;
     margin-bottom: 2%;
