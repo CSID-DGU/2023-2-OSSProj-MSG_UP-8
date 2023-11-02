@@ -6,6 +6,7 @@ import eclass_logo from '../assets/image/eclass_logo.png';
 import DGU_logo from "../assets/image/dgu_logo.svg";
 import LectureItem from "../components/LectureItem";
 import Todo from "../components/Todo";
+import TimeTable from "../components/TimeTable";
 
 function MainPage(props) {
 
@@ -40,16 +41,14 @@ function MainPage(props) {
                                         alt="" />
                                     <s.main_logout_btn>로그아웃</s.main_logout_btn>
 
-                                </s.TitleBox><s.ComponentBox>
+                                </s.TitleBox>
+                                <s.ComponentBox>
 
                                         {/* 시간표 */}
                                         <s.Item>
-
-                                            <img
-                                                src={DGU_logo}
-                                                alt="" /> :
-                                            <s.message>로그인 후 사용가능합니다.</s.message>
-
+                                            <s.Main_TimeTable_item>
+                                                <TimeTable />
+                                            </s.Main_TimeTable_item>
                                         </s.Item>
 
 

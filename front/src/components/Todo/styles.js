@@ -5,7 +5,6 @@ import theme from "../../style/theme.js";
 export const TodoContainer = styled.div`
     display: flex;
     flex-direction: column;
-
     width: 100%;
     height: 90%;
 `;
