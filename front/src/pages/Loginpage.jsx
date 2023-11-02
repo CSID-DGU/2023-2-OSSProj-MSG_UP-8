@@ -4,8 +4,7 @@ import { useState } from 'react';
 import * as s from '../style/Login.style.js'
 import login_icon from '../assets/image/login_icon.svg';
 import login_pwd from '../assets/image/login_pwd.svg';
-import eclass_logo from '../assets/image/eclass_logo.svg';
-import eclass_name from '../assets/image/eclass_name.svg';
+import eclass_logo from '../assets/image/eclass_logo.png';
 
 
 
@@ -46,10 +45,6 @@ const post_login = () => {}
                     <s.TitleBox>
                         <img
                         src={eclass_logo}
-                        alt=""
-                        />
-                        <img
-                        src={eclass_name}
                         alt=""
                         />
                     </s.TitleBox>

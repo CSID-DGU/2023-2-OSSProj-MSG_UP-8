@@ -3,6 +3,7 @@ import * as s from "./styles";
 import checkItemHandler from "../../pages/Lecturepage";
 
 export default function LectureChoice(props) {
+    
     const [checked, setChecked] = useState(false);
 
     const checkHandled = ({target}) => {
