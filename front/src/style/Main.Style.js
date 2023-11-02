@@ -108,6 +108,12 @@ export const Main_Lecture_item = styled.div`
     width: 90%;
     margin-top: 5%;
 `;
+export const Main_TimeTable_item = styled.div`
+    width: 90%;
+    height: 100%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+`;
 export const Main_Todo_item = styled.div`
     overflow-y: scroll;
     height: 100%;
