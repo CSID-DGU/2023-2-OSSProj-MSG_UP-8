@@ -41,7 +41,8 @@ function MainPage(props) {
                                         alt="" />
                                     <s.main_logout_btn>로그아웃</s.main_logout_btn>
 
-                                </s.TitleBox><s.ComponentBox>
+                                </s.TitleBox>
+                                <s.ComponentBox>
 
                                         {/* 시간표 */}
                                         <s.Item>
