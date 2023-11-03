@@ -8,8 +8,14 @@ function Lecturepage(props) {
     // 더미
     const data = [
         { id: 1, title: "컴퓨터 시스템" },
-        { id: 2, title: "오픈소프트웨어 프로젝트" },
+        { id: 2, title: "오픈소스 소프트웨어 프로젝트" },
         { id: 3, title: "융합프로그래밍1" },
+        { id: 4, title: "데이터베이스" },
+        { id: 5, title: "모바일 프로그래밍" },
+        { id: 6, title: "융합프로그래밍2" },
+        { id: 7, title: "오픈소스 소프트웨어 실습" },
+        { id: 8, title: "파이썬프로그래밍" },
+        { id: 9, title: "자료구조 알고리즘" },
     ]
 
     // const checkList = [...Array(5).fill("체크").map((v, i => v + i))]

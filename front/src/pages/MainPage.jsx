@@ -127,7 +127,9 @@ function MainPage(props) {
 
                                 {/* 캘린더 */}
                                 <s.Item>
-                                
+                                    <s.Main_LogoutCal_item>
+                                        <LogoutCal />
+                                    </s.Main_LogoutCal_item>
                                 </s.Item>
 
                             </s.ComponentBox>

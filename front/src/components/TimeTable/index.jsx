@@ -3,7 +3,7 @@ import * as s from "./styles.js";
 import theme from "../../style/theme.js";
 
 export default function TimeTable(props) {
-
+    // const today = new Date().getDay(); //해당 날짜 코드
     return(
         <>
             <s.Container>
@@ -215,6 +215,15 @@ export default function TimeTable(props) {
                         <td></td>
                         
                         <td style={{ borderBottom: 'none', borderRight: 'none' }}></td>
+                        {/* {props.data.map((row, index) => (
+                            <tr key={index}>
+                                {row.map((col, colIndex) => (
+                                    <th key={colIndex} style={{ backgroundColor: colIndex === today ? 'lightblue' : 'white' }}>
+                                    {col}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))} */}
                     </tr>
                 </s.Table>
             </s.Container>

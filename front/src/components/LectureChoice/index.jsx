@@ -4,24 +4,23 @@ import checkItemHandler from "../../pages/Lecturepage";
 
 export default function LectureChoice(props) {
     
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
 
-    const checkHandled = ({target}) => {
-        setChecked(!checked);
-        checkItemHandler(target.id, target.checked);
-    }
+    // const checkHandled = ({target}) => {
+    //     setChecked(!checked);
+    //     checkItemHandler(target.id, target.checked);
+    // }
 
     return (
         <>
-            <s.LectureContainer>
+            <s.LectureContainer key={props.id}>
                     <s.CheckBox
                         type="checkbox"
-                        checked={checked}
                         id={props.id}
                         name="lecture"
-                        onChange={(e) => checkHandled(e)} 
+                        
                     />
-                    <s.LectureTextLabel>
+                    <s.LectureTextLabel htmlFor={props.id}>
                         <s.LectureTitle>
                             {props.title}
                         </s.LectureTitle>

@@ -17,7 +17,7 @@ export const CheckBox = styled.input`
     border: 0;
 
     &:checked + label {
-        background-color: ${theme.COLORS.DEEP_BLUE};
+        background-color: ${theme.COLORS.MAIN_YELLOW};
         color:${theme.COLORS.CONTAINER_WHITE};
     }
 `;
@@ -39,7 +39,7 @@ export const LectureTextLabel = styled.label`
 `;
 export const LectureTitle = styled.div`
     padding-left: 20px;
-    font-size: ${theme.FONT_SIZE.SMALL_SIZE};
+    font-size: ${theme.FONT_SIZE.MAIN_SIZE};
     font-weight: ${theme.FONT_WEIGHT.BOLD};
 `;
 

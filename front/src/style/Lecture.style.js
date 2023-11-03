@@ -58,6 +58,7 @@ export const CheckBoxList = styled.div`
 
 
 export const lectureComponent = styled.div`
+    overflow-y: scroll;
     width: 80%;
     height: 80%;
 `;
