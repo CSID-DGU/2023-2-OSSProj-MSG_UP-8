@@ -28,4 +28,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('logincals/', include('logincals.urls')),
     path('logoutcals/', include('logoutcals.urls')),
+    path('todo/', include('todo.urls')),
 ]
