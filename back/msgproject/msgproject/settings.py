@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'eclass',
     'logincals',
     'logoutcals',
+    'todo',
 
 ]
 
