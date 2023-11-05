@@ -8,11 +8,12 @@ import LectureItem from "../components/LectureItem";
 import Todo from "../components/Todo";
 import TimeTable from "../components/TimeTable";
 import LogoutCal from "../components/LogoutCal/index.jsx";
+import LoginCal from "../components/LoginCal/index.jsx";
 
 function MainPage(props) {
 
 
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const navigate = useNavigate();
 
     const onClickLogin = () => {
@@ -74,7 +75,7 @@ function MainPage(props) {
                                         {/* 캘린더 */}
                                         <s.Item>
                                             <s.Main_LogoutCal_item>
-                                                <LogoutCal />
+                                                <LoginCal />
                                             </s.Main_LogoutCal_item>
                                         </s.Item>
 

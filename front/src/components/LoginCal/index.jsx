@@ -90,7 +90,7 @@ export const WrappFullCalendar = styled.div`
     width: 100%;
     height: 100%;
 `;
-export default class LogoutCal extends React.Component {
+export default class LoginCal extends React.Component {
   render() {
     return (
     <Wrapper>
@@ -102,9 +102,9 @@ export default class LogoutCal extends React.Component {
         eventTextColor='white'
         locale={'ko'}
         events={[
-          { title: "겨울 계절학기 수강신청", start:'2023-11-15', end:'2023-11-17', color: "#E72F4B"},
-          { title: '졸업연기 신청', start: '2023-11-29', end:'2023-12-01', color: ""},
-          { title: '학기 3/4 기준일', date: '2023-11-17', color: "#7FDD21"},
+          { title: "중간 보고서", start:'2023-11-03', end:'2023-11-06', color: "#E72F4B"},
+          { title: '융프2 보고서', start: '2023-11-15', end:'2023-11-19', color: ""},
+          { title: '중간 발표', date: '2023-11-06', color: "#7FDD21"},
         ]}
       />
     </Wrapper>
