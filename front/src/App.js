@@ -4,6 +4,7 @@ import Login from "./pages/Loginpage";
 import Signup from "./pages/Signuppage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LectureChoice from "./pages/Lecturepage";
+import LectureDetailPage from "./pages/LectureDetailpage";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/lecture" element={<LectureChoice />} />
+        <Route path="/lecturedetail" element={<LectureDetailPage />} />
         </Routes>
       </BrowserRouter>
     // </GlobalStyles>

@@ -13,7 +13,7 @@ import LoginCal from "../components/LoginCal/index.jsx";
 function MainPage(props) {
 
 
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     const navigate = useNavigate();
 
     const onClickLogin = () => {

@@ -98,6 +98,13 @@ export default class LogoutCal extends React.Component {
         plugins={[ dayGridPlugin, interactionPlugin ]}
         dateClick={this.handleDateClick}
         initialView="dayGridMonth"
+        headerToolbar={
+          {
+            start: "today",
+            center: "title",
+            end: "prev,next"
+          }
+        }
         weekends={true}
         eventTextColor='white'
         locale={'ko'}
