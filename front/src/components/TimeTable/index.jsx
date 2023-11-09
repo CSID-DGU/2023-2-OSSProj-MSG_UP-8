@@ -1,6 +1,6 @@
 import React from "react";
 import * as s from "./styles.js";
-import theme from "../../style/theme.js";
+// import theme from "../../style/theme.js";
 
 export default function TimeTable(props) {
     // const today = new Date().getDay(); //해당 날짜 코드

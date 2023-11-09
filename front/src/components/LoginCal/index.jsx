@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from "@emotion/styled";
 import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
-import interactionPlugin from "@fullcalendar/interaction";
+import dayGridPlugin from '@fullcalendar/daygrid' 
+
+import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -90,14 +91,30 @@ export const WrappFullCalendar = styled.div`
     width: 100%;
     height: 100%;
 `;
-export default class LogoutCal extends React.Component {
+export default class LoginCal extends React.Component {
+
+  calendarRef = React.createRef();
+
+  handleDateClick = (arg) => { 
+    const title = prompt("일정을 입력하세요");
+    if (title) {
+      const calendarApi = this.calendarRef.current.getApi();
+      calendarApi.addEvent({ title: title, date: arg.date, color: "#E72F4B" });
+    }
+  }
+
+
+
   render() {
     return (
     <Wrapper>
       <FullCalendar
         plugins={[ dayGridPlugin, interactionPlugin ]}
         dateClick={this.handleDateClick}
+        eventContent={renderEventContent}
         initialView="dayGridMonth"
+        editable={true}
+        selectable= {true}
         headerToolbar={
           {
             start: "today",
@@ -108,17 +125,25 @@ export default class LogoutCal extends React.Component {
         weekends={true}
         eventTextColor='white'
         locale={'ko'}
-        events={[
-          { title: "겨울 계절학기 수강신청", start:'2023-11-15', end:'2023-11-17', color: "#E72F4B"},
-          { title: '졸업연기 신청', start: '2023-11-29', end:'2023-12-01', color: ""},
-          { title: '학기 3/4 기준일', date: '2023-11-17', color: "#7FDD21"},
-        ]}
+        ref={this.calendarRef}
+        // events={[
+        //   { title: "중간 보고서", start:'2023-11-03', end:'2023-11-06', color: "#E72F4B"},
+        //   { title: '융프2 보고서', start: '2023-11-15', end:'2023-11-19', color: ""},
+        //   { title: '중간 발표', date: '2023-11-06', color: "#7FDD21"},
+        // ]}
       />
     </Wrapper>
     )
   }
 
-  handleDateClick = (arg) => { 
-    alert(arg.dateStr)
-  }
+
+}
+
+function renderEventContent(eventInfo) {
+  return(
+    <>
+      <b>{eventInfo.timeText}</b>
+      <i>{eventInfo.event.title}</i>
+    </>
+  )
 }
