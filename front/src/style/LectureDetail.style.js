@@ -65,6 +65,7 @@ export const BodyContent = styled.div`
     margin-top: 2%;
     display: flex;
     align-items: flex-start;
+    flex-direction: column;
 `;
 export const TabMenu = styled.div`
     font-weight: ${theme.FONT_WEIGHT.BOLD};
@@ -73,7 +74,6 @@ export const TabMenu = styled.div`
     flex-direction: row;
     align-items: center;
     list-style: none;
-    margin-bottom: 7rem;
     margin-top: 10px;
     width: 100%;
 
@@ -105,6 +105,9 @@ export const TabMenu = styled.div`
 
 
 export const TabContent = styled.div`
+    width: 100%;
+    border: 1px solid ${theme.COLORS.DEEP_GRAY};
     color: ${theme.COLORS.BLACK};
+    height: 100%;
 `;
 
