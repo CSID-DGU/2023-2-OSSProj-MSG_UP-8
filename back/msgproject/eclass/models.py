@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.user.username if self.user else "No User"
+        return self.name if self.user else "No User"
 
 
 class classlist(models.Model):
