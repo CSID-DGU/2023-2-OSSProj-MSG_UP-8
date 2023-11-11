@@ -24,7 +24,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import UserProfile
-from .serializers import UserProfileSerializer
+# from .serializers import UserProfileSerializer
 from rest_framework.authtoken.models import Token
 
 class RegisterView(APIView):
