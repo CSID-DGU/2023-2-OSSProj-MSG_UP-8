@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from "@emotion/styled";
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' 
-
-import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
+import interactionPlugin from "@fullcalendar/interaction";
+import Modal from 'react-modal';
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -87,34 +87,94 @@ export const Wrapper = styled.div`
     }
 `;
 
-export const WrappFullCalendar = styled.div`
-    width: 100%;
-    height: 100%;
-`;
-export default class LoginCal extends React.Component {
+// export const WrappFullCalendar = styled.div`
+//     width: 100%;
+//     height: 100%;
+// `;
 
-  calendarRef = React.createRef();
+function LoginCal(props) {
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [newEventTitle, setNewEventTitle] = useState('');
+  const [newEventStart, setNewEventStart] = useState('');
+  const [newEventEnd, setNewEventEnd] = useState('');
+  const [selectedEventId, setSelectedEventId] = useState('');
 
-  handleDateClick = (arg) => { 
-    const title = prompt("일정을 입력하세요");
-    if (title) {
-      const calendarApi = this.calendarRef.current.getApi();
-      calendarApi.addEvent({ title: title, date: arg.date, color: "#E72F4B" });
+  const openModal = (startStr, endStr, eventId) => {
+    setNewEventStart(startStr);
+    setNewEventEnd(endStr);
+    setSelectedEventId(eventId);
+    setNewEventTitle(''); 
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleDateClick = (arg) => {
+    openModal(arg.dateStr);
+  };
+
+  const handleSelect = (selectInfo) => {
+    openModal(selectInfo.startStr, selectInfo.endStr);
+  };
+
+  const handleEventAdd = () => {
+    if (newEventTitle) {
+      const newEvent = {
+        title: newEventTitle,
+        start: newEventStart,
+        end: newEventEnd,
+        id: events.length.toString(),
+        allDay: true,
+        color: eventColor,
+      };
+      setEvents([...events, newEvent]);
+      closeModal();
     }
-  }
+  };
+  const [eventColor, setEventColor] = useState('#ffffff');
 
+  const handleEventClick = (clickInfo) => {
+    setNewEventTitle(clickInfo.event.title);
+    setNewEventStart(clickInfo.event.start);
+    setNewEventEnd(clickInfo.event.end);
+    setEventColor(clickInfo.event.backgroundColor);
+    setSelectedEventId(clickInfo.event.id); 
+    setIsOpen(true);
+    // openModal(clickInfo.event.start, clickInfo.event.end, clickInfo.event.id);
+  };
 
+  const updateEvent = () => {
+    const updatedEvents = events.map(event => {
+      if (event.id === selectedEventId) {
+        return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
+      }
+      return event;
+    });
+    setEvents(updatedEvents);
+    closeModal();
+  };
 
-  render() {
-    return (
+  const deleteEvent = () => {
+    const filteredEvents = events.filter(event => event.id !== selectedEventId);
+    setEvents(filteredEvents);
+    closeModal();
+  };
+
+  return (
     <Wrapper>
       <FullCalendar
         plugins={[ dayGridPlugin, interactionPlugin ]}
-        dateClick={this.handleDateClick}
         eventContent={renderEventContent}
+        eventClick={handleEventClick}
+        events={events}
+        selectable={true}
+        select={handleSelect}
+        dateClick={handleDateClick}
         initialView="dayGridMonth"
         editable={true}
-        selectable= {true}
         headerToolbar={
           {
             start: "today",
@@ -125,25 +185,90 @@ export default class LoginCal extends React.Component {
         weekends={true}
         eventTextColor='white'
         locale={'ko'}
-        ref={this.calendarRef}
-        // events={[
-        //   { title: "중간 보고서", start:'2023-11-03', end:'2023-11-06', color: "#E72F4B"},
-        //   { title: '융프2 보고서', start: '2023-11-15', end:'2023-11-19', color: ""},
-        //   { title: '중간 발표', date: '2023-11-06', color: "#7FDD21"},
-        // ]}
       />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            height: '300px',
+            width: '500px',
+            backgroundColor: '#FFFFFF', 
+            border: '1px solid #CDCDCD',
+            borderRadius: '10px',
+            display:'flex',
+            alignItems: "center",
+            justifyContent: "space-around",
+            flexDirection: "column",
+          }
+        }}
+      >
+        <input
+          type="text"
+          placeholder="일정을 추가해주세요"
+          value={newEventTitle}
+          onChange={(e) => setNewEventTitle(e.target.value)}
+          style={{
+            border: '1px solid #CDCDCD',
+            borderRadius: '5px',
+            outline: 'none',
+            padding: '15px',
+            width: '350px',
+            height: '50px',
+            fontWeight: '800',
+          }}
+          />
+          <input
+            type="color"
+            value={eventColor}
+            onChange={(e) => setEventColor(e.target.value)}
+            style={{ width: '200px', height: '50px', border: '1px solid #CDCDCD', borderRadius: '5px' }}
+          />
+        <div>
+          <button
+            onClick={selectedEventId ? deleteEvent : closeModal}
+            style={{
+              border: 'none',
+              borderRadius: '5px',
+              width: '150px',
+              marginRight: '50px',
+              backgroundColor: '#EDC219',
+              fontWeight: '800',
+              padding: '15px',
+          }}>
+            {selectedEventId ? '삭제' : '취소'}
+          </button>
+          <button 
+            onClick={selectedEventId ? updateEvent : handleEventAdd}
+            style={{
+              border: 'none',
+              borderRadius: '5px',
+              width: '150px',
+              backgroundColor: '#EB9332',
+              fontWeight: '800',
+              padding: '15px',
+          }}>
+            {selectedEventId ? '변경' : '추가'}</button>
+        </div>
+      </Modal>
+
     </Wrapper>
-    )
+    );
   }
 
-
-}
+export default LoginCal;
 
 function renderEventContent(eventInfo) {
   return(
-    <>
+    <div style={{ backgroundColor: eventInfo.event.backgroundColor }}>
       <b>{eventInfo.timeText}</b>
       <i>{eventInfo.event.title}</i>
-    </>
+    </div>
   )
 }
