@@ -7,6 +7,7 @@ import LectureChoice from "./pages/Lecturepage";
 import LectureDetailPage from "./pages/LectureDetailpage";
 
 
+
 function App() {
   return (
     // <GlobalStyles>
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/lecture" element={<LectureChoice />} />
         <Route path="/lecturedetail" element={<LectureDetailPage />} />
+
         </Routes>
       </BrowserRouter>
     // </GlobalStyles>
