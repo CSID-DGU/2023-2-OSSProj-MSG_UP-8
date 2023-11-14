@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import * as s from '../style/Main.Style.js';
 // import dgu_logo from "../assets/image/dgu_logo.svg";
@@ -9,18 +9,48 @@ import Todo from "../components/Todo";
 import TimeTable from "../components/TimeTable";
 import LogoutCal from "../components/LogoutCal/index.jsx";
 import LoginCal from "../components/LoginCal/index.jsx";
+import axios from "axios";
 
 function MainPage(props) {
 
 
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
+    const [userName, setUserName] = useState('');
+    const [studentNum, setStudentNum] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // 로컬 스토리지나 세션 스토리지에서 로그인 상태 확인
+        const auth = sessionStorage.getItem('auth');
+        setIsLogin(auth === 'true');
+    
+        // 로그인 상태일 경우 사용자 정보를 가져옵니다.
+        if (auth === 'true') {
+            // 인증 토큰을 세션 스토리지에서 가져옵니다.
+            const token = sessionStorage.getItem('token');
+
+            axios.get('http://127.0.0.1:8000/profile/', {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+
+            })
+            .then(response => {
+                const studentNum = response.data.student_id;
+                const userName = response.data.name;
+                setStudentNum(studentNum);
+                setUserName(userName);
+            })
+            .catch(error => {
+                console.log('Error fetching user data:', error);
+            });
+        }
+    }, []);
+    
 
     const onClickLogin = () => {
             navigate(`/login`);
     };
-    // const onClickSignup = () => {
-    //     navigate(`/signup`);
 
     // LectureItem 더미
     const Ldata = [
@@ -42,7 +72,17 @@ function MainPage(props) {
                                         src={eclass_logo}
                                         alt="" />
                                     <s.main_logout_btn>로그아웃</s.main_logout_btn>
-
+                                    <s.UserBox>
+                                        <s.User>
+                                        <p>{userName}</p>
+                                        <p>( </p>
+                                        <p>{studentNum}</p>
+                                        <p> )</p>
+                                        </s.User>
+                                        <s.Description>쪽 지</s.Description>
+                                        <s.NoteBox>1</s.NoteBox>
+                                    </s.UserBox>
+                                    
                                 </s.TitleBox>
                                 <s.ComponentBox>
 

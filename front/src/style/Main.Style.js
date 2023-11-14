@@ -103,6 +103,36 @@ export const main_logout_btn = styled.button`
     border-radius: 5px;
 `;
 
+export const UserBox = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: ${theme.FONT_SIZE.SMALL_SIZE};
+    font-weight: ${theme.FONT_WEIGHT.BOLD};
+    font-size: ${theme.FONT_SIZE.MAIN_SIZE};
+`;
+
+export const User = styled.div`   
+    margin-right: 5px;
+`;
+export const Description = styled.div`
+   
+`;
+
+
+export const NoteBox = styled.div`
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${theme.COLORS.LIGHT_BLUE};
+    border-radius: 5px;
+    font-size: ${theme.FONT_SIZE.MAIN_SIZE};
+    color: ${theme.COLORS.CONTAINER_WHITE};
+    border: 2px solid ${theme.COLORS.CONTAINER_WHITE};
+`;
+
+
 export const Main_Lecture_item = styled.div`
     overflow-y: scroll;
     width: 90%;

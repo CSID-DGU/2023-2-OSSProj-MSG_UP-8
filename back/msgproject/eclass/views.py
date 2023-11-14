@@ -1,33 +1,18 @@
-# from django.contrib.auth.models import User
-# from rest_framework import generics, status
-# from rest_framework.response import Response
-# from .serializers import RegisterSerializer, LoginSerializer
-
-
-# class RegisterView(generics.CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterSerializer
-
-
-# class LoginView(generics.GenericAPIView):
-#     serializer_class = LoginSerializer
-
-#     def post(self, request):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         token = serializer.validated_data
-#         return Response({"token": token.key}, status=status.HTTP_200_OK)
-
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from .serializers import UserProfileSerializer
 from .models import UserProfile
+from rest_framework.permissions import IsAuthenticated
 # from .serializers import UserProfileSerializer
 from rest_framework.authtoken.models import Token
 
+from rest_framework.permissions import AllowAny
+
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         student_id = request.data.get('student_id')
         name = request.data.get('name')
@@ -40,7 +25,18 @@ class RegisterView(APIView):
 
         return Response({'message': 'User registered successfully'})
 
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_profile = UserProfile.objects.get(user=request.user)
+        serializer = UserProfileSerializer(user_profile)
+        return Response(serializer.data)
+
+
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         student_id = request.data.get('student_id')
         password = request.data.get('password')
@@ -55,7 +51,7 @@ class LoginView(APIView):
             return Response({'message': 'Login failed'}, status=401)
 
 class LogoutView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         logout(request)
