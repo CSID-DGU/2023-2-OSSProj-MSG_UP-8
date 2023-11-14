@@ -27,7 +27,7 @@ conn = sqlite3.connect(database)
 
 # 데이터 유형(dtype)을 지정
 dtype = {
-    "classid": "int64",
+    "id": "int64",
     "name": "str",
     "professor": "str",
     "day1": "str",
@@ -46,7 +46,7 @@ dtype = {
 
 
 # 테이블 열 이름 지정
-df.columns = ['classid', 'name', 'professor', 'day1', 'day2', 'starttime1', 'endtime1', 'starttime2', 'endtime2', 'place', 'major']
+df.columns = ['id', 'name', 'professor', 'day1', 'day2', 'starttime1', 'endtime1', 'starttime2', 'endtime2', 'place', 'major']
 
 df.to_sql(name='eclass_classlist', con=conn, if_exists='replace', dtype=dtype, index=False)
 
