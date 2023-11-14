@@ -18,16 +18,21 @@
 #         token = serializer.validated_data
 #         return Response({"token": token.key}, status=status.HTTP_200_OK)
 
-
+from django.shortcuts import redirect
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import UserProfile
-# from .serializers import UserProfileSerializer
+from .models import UserProfile, classlist, UserClasslist
+from .serializers import ClassPickSerializer, UserClasslistSerializer
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
 
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         student_id = request.data.get('student_id')
         name = request.data.get('name')
@@ -40,7 +45,10 @@ class RegisterView(APIView):
 
         return Response({'message': 'User registered successfully'})
 
+
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         student_id = request.data.get('student_id')
         password = request.data.get('password')
@@ -54,9 +62,35 @@ class LoginView(APIView):
         else:
             return Response({'message': 'Login failed'}, status=401)
 
+
 class LogoutView(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         logout(request)
         return Response({'message': 'Logout successful'})
+
+
+# class ClasspickView(generics.ListCreateAPIView):
+#     permission_classes = [AllowAny]
+
+#     queryset = UserClasslist.objects.all()
+#     serializer_class = UserClasslistSerializer
+
+    # def perform_create(self, serializer):
+    #     serializer.save()
+
+
+class UserClasslistView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+
+    queryset = UserClasslist.objects.all()
+    serializer_class = UserClasslistSerializer
+
+    def perform_create(self, serializer):
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save(commit=False)
+        # self.data = serializer.data
+        serializer.save()
+        return redirect('/')

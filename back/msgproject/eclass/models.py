@@ -20,7 +20,7 @@ class UserProfile(models.Model):
 
 
 class classlist(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     professor = models.CharField(max_length=20, blank=False, null=False)
     day1 = models.CharField(max_length=2, blank=True, null=True)
@@ -29,10 +29,14 @@ class classlist(models.Model):
     endtime1 = models.CharField(max_length=20, blank=True, null=True)
     starttime2 = models.CharField(max_length=20, blank=True, null=True)
     endtime2 = models.CharField(max_length=20, blank=True, null=True)
-    place = models.CharField(max_length=100)
+    place = models.CharField(max_length=100, blank=True, null=True)
     major = models.CharField(max_length=50, blank=False, null=False)
 
 
-class CSVFile(models.Model):
-    file = models.FileField(upload_to='csv_files/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+class UserClasslist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    userclass = models.ManyToManyField(classlist)
+
+# class CSVFile(models.Model):
+#     file = models.FileField(upload_to='csv_files/')
+#     uploaded_at = models.DateTimeField(auto_now_add=True)

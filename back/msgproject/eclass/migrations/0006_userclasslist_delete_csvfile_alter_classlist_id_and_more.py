@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='classlist',
             name='id',
-            field=models.AutoField(primary_key=True, serialize=False),
+            field=models.AutoField(primary_key=True, serialize=True),
         ),
         migrations.AlterField(
             model_name='classlist',

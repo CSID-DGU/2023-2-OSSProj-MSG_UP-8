@@ -8,7 +8,7 @@
 from rest_framework import serializers
 from .models import UserProfile
 
-from .models import classlist, CSVFile
+from .models import classlist, UserClasslist
 
 
 # class RegisterSerializer(serializers.ModelSerializer):
@@ -55,7 +55,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['student_id', 'name']
-        
+
 
 class classserializer(serializers.ModelSerializer):
     class Meta:
@@ -64,7 +64,17 @@ class classserializer(serializers.ModelSerializer):
                   'endtime1', 'starttime2', 'endtime2', 'place', 'major']
 
 
-class CSVFileSerializer(serializers.ModelSerializer):
+# class CSVFileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CSVFile
+#         fields = ('id', 'file', 'uploaded_at')
+
+class ClassPickSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CSVFile
-        fields = ('id', 'file', 'uploaded_at')
+        model = classlist
+        fields = ['id', 'name']
+
+class UserClasslistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserClasslist
+        fields = ['user', 'userclass']
