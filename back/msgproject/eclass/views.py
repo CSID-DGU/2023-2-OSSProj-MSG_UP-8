@@ -1,34 +1,15 @@
-# from django.contrib.auth.models import User
-# from rest_framework import generics, status
-# from rest_framework.response import Response
-# from .serializers import RegisterSerializer, LoginSerializer
-
-
-# class RegisterView(generics.CreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterSerializer
-
-
-# class LoginView(generics.GenericAPIView):
-#     serializer_class = LoginSerializer
-
-#     def post(self, request):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         token = serializer.validated_data
-#         return Response({"token": token.key}, status=status.HTTP_200_OK)
-
 from django.shortcuts import redirect
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+
 from .models import UserProfile, classlist, UserClasslist
 from .serializers import ClassPickSerializer, UserClasslistSerializer
+from .serializers import UserProfileSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -44,6 +25,14 @@ class RegisterView(APIView):
         user_profile.save()
 
         return Response({'message': 'User registered successfully'})
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_profile = UserProfile.objects.get(user=request.user)
+        serializer = UserProfileSerializer(user_profile)
+        return Response(serializer.data)
 
 
 class LoginView(APIView):

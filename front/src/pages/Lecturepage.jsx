@@ -2,9 +2,33 @@ import React, {useState} from "react";
 import * as s from '../style/Lecture.style.js'
 import LectureChoice from "../components/LectureChoice";
 import eclass_logo from '../assets/image/eclass_logo.png';
+import axios from "axios";
 
 function Lecturepage(props) {
 
+    
+    // const get_classpick = async () => {
+    //   try {
+    //     await axios
+    //       .get(
+    //         'http://127.0.0.1:8000/register/classpick',
+    //       )
+    //       .then(res => {
+    //         // console.log(res);
+    //         setProfile(res.data);
+    //         setProfile2(res.data.profile);
+    //         setUser_club_list(res.data.user_club_list);
+    //         setUser_todo_list(res.data.user_todo_list);
+    //         sessionStorage.setItem('userid', res.data.profile.id);
+    //       });
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
+
+    // useEffect(() => {
+    //   get_profile();
+    // }, []);
     // 더미
     const data = [
         { id: 1, title: "컴퓨터 시스템" },
