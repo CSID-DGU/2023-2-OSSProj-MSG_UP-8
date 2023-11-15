@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
-from .models import UserProfile, classlist, UserClasslist
-from .serializers import ClassPickSerializer, UserClasslistSerializer
-from .serializers import UserProfileSerializer
+from .models import UserProfile, Classlist, UserClasslist
+# from .serializers import UserClasslistSerializer
+from .serializers import UserProfileSerializer, Classserializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -60,26 +60,13 @@ class LogoutView(APIView):
         return Response({'message': 'Logout successful'})
 
 
-# class ClasspickView(generics.ListCreateAPIView):
-#     permission_classes = [AllowAny]
-
-#     queryset = UserClasslist.objects.all()
-#     serializer_class = UserClasslistSerializer
-
-    # def perform_create(self, serializer):
-    #     serializer.save()
-
-
-class UserClasslistView(generics.ListCreateAPIView):
+class ClassListView(APIView):
     permission_classes = [AllowAny]
 
-    queryset = UserClasslist.objects.all()
-    serializer_class = UserClasslistSerializer
+    def get(self, request):
+        classlists = Classlist.objects.all()  # 모든 이벤트를 가져오도록 수정
+        serializer = Classserializer(classlists, many=True)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        # serializer = self.get_serializer(data=request.data)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save(commit=False)
-        # self.data = serializer.data
-        serializer.save()
-        return redirect('/')
+
+

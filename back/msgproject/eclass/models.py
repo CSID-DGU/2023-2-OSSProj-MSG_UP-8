@@ -19,7 +19,7 @@ class UserProfile(models.Model):
         return self.name if self.user else "No User"
 
 
-class classlist(models.Model):
+class Classlist(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     professor = models.CharField(max_length=20, blank=False, null=False)
@@ -35,8 +35,5 @@ class classlist(models.Model):
 
 class UserClasslist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    userclass = models.ManyToManyField(classlist)
+    userclass = models.ManyToManyField(Classlist)
 
-# class CSVFile(models.Model):
-#     file = models.FileField(upload_to='csv_files/')
-#     uploaded_at = models.DateTimeField(auto_now_add=True)

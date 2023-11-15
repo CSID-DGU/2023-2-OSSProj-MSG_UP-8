@@ -1,7 +1,6 @@
-# from django.urls import path
-# from .views import RegisterView, LoginView
+from django.urls import path
+from .views import ClassListView
 
-# urlpatterns = [
-#     path("signup/", RegisterView.as_view()),
-#     path("login/", LoginView.as_view()),
-# ]
+urlpatterns = [
+    path('classlist/', ClassListView.as_view(), name='list-classlist'),
+]
