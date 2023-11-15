@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import UserProfile
 
-from .models import Classlist
+from .models import Classlist, UserClasslist
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +20,10 @@ class Classserializer(serializers.ModelSerializer):
 #         model = classlist
 #         fields = ['id', 'name']
 
-# class UserClasslistSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserClasslist
-#         fields = ['user', 'userclass']
+class UserClasslistSerializer(serializers.ModelSerializer):
+    userclass = serializers.PrimaryKeyRelatedField(many=True, queryset=Classlist.objects.all())
+
+    
+    class Meta:
+        model = UserClasslist
+        fields = ['user', 'userclass']
