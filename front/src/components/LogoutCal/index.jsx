@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from "@emotion/styled";
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
+import axios from 'axios';
 
 export const Wrapper = styled.div`
     width: 100%;
@@ -71,7 +72,7 @@ export const Wrapper = styled.div`
     .fc-event {
       cursor: pointer;
       padding: 1px 1px;
-      margin-bottom: 1.5%;
+      margin-bottom: 8%;
       border-radius: 3px;
       font-weight: 500;
       font-size: 1.5rem;
@@ -90,13 +91,37 @@ export const WrappFullCalendar = styled.div`
     width: 100%;
     height: 100%;
 `;
-export default class LogoutCal extends React.Component {
-  render() {
+function LogoutCal(props) {
+
+    const [events, setEvents] = useState([]);
+
+    // const getRandomColor = () => {
+    //   const colors = ['#E72F4B', '#7FDD21', '#356eff'];
+    //   return colors[Math.floor(Math.random() * colors.length)];
+    // };
+
+    const colors = ['#E72F4B', '#7FDD21', '#356eff'];
+
+    useEffect(() => {
+
+      axios.get('http://127.0.0.1:8000/logoutcals/schedulelist/') 
+        .then(response => {
+          const fetchedEvents = response.data.map((event, index) => ({
+            title: event.out_title,
+            start: event.out_startdate,
+            end: event.out_enddate,
+            color: colors[index % colors.length]
+          }));
+          setEvents(fetchedEvents); 
+        })
+        .catch(error => console.log(error));
+    }, []); 
+  
     return (
     <Wrapper>
       <FullCalendar
         plugins={[ dayGridPlugin, interactionPlugin ]}
-        dateClick={this.handleDateClick}
+        eventContent={renderEventContent}
         initialView="dayGridMonth"
         headerToolbar={
           {
@@ -108,17 +133,20 @@ export default class LogoutCal extends React.Component {
         weekends={true}
         eventTextColor='white'
         locale={'ko'}
-        events={[
-          { title: "겨울 계절학기 수강신청", start:'2023-11-15', end:'2023-11-17', color: "#E72F4B"},
-          { title: '졸업연기 신청', start: '2023-11-29', end:'2023-12-01', color: ""},
-          { title: '학기 3/4 기준일', date: '2023-11-17', color: "#7FDD21"},
-        ]}
+        events={events}
       />
     </Wrapper>
-    )
+    );
   }
 
-  handleDateClick = (arg) => { 
-    alert(arg.dateStr)
+export default LogoutCal;
+
+
+  function renderEventContent(eventInfo) {
+    return(
+      <div style={{ backgroundColor: eventInfo.event.backgroundColor }}>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </div>
+    )
   }
-}

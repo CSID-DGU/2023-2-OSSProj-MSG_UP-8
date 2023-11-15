@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import styled from "@emotion/styled";
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid' 
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import Modal from 'react-modal';
 
