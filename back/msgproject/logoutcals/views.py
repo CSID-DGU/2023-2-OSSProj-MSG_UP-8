@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Schedule
 from .serializers import ScheduleSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class ScheduleListView(APIView):
+    permission_classes = [AllowAny]
 
     def get(self, request):
         schedules = Schedule.objects.all()  # 모든 이벤트를 가져오도록 수정
@@ -12,6 +14,7 @@ class ScheduleListView(APIView):
         return Response(serializer.data)
 
 class ScheduleView(APIView):
+    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         try:
