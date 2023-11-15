@@ -3,3 +3,4 @@ from .models import *
 # Register your models here.
 admin.site.register(classlist)
 admin.site.register(UserClasslist)
+admin.site.register(UserProfile)
