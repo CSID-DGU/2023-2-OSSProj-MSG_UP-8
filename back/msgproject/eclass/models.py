@@ -1,15 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
-# class Student(models.Model):
-#     id = models.IntegerField(primary_key=True)
-#     pw = models.CharField(max_length=50)
-#     name = models.CharField(max_length=50)
-#     class_list = models.CharField(max_length=200, blank=True, null=True)
-#     todo_list = models.CharField(max_length=255, blank=True, null=True)
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     student_id = models.CharField(max_length=10)
@@ -20,7 +11,6 @@ class UserProfile(models.Model):
 
 
 class Classlist(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     professor = models.CharField(max_length=20, blank=False, null=False)
     day1 = models.CharField(max_length=2, blank=True, null=True)
@@ -34,6 +24,6 @@ class Classlist(models.Model):
 
 
 class UserClasslist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     userclass = models.ManyToManyField(Classlist)
 

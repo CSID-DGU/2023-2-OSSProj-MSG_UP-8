@@ -15,10 +15,6 @@ class Classserializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'professor', 'day1', 'day2', 'starttime1',
                   'endtime1', 'starttime2', 'endtime2', 'place', 'major']
 
-# class ClassPickSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = classlist
-#         fields = ['id', 'name']
 
 class UserClasslistSerializer(serializers.ModelSerializer):
     userclass = serializers.PrimaryKeyRelatedField(many=True, queryset=Classlist.objects.all())

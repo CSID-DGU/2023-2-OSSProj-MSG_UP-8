@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import UserProfile, Classlist, UserClasslist
-# from .serializers import UserClasslistSerializer
 from .serializers import UserProfileSerializer, Classserializer, UserClasslistSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
