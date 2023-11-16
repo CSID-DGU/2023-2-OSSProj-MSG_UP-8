@@ -17,8 +17,9 @@ function Lecturepage(props) {
       } else {
         newCheckItems.delete(id);
       }
-      setCheckItems(newCheckItems);
+      setCheckItems(newCheckItems); 
     };
+
 
 
     const get_classpick = async () => {
@@ -40,8 +41,9 @@ function Lecturepage(props) {
     const post_classpick = async () => {
       try {
         const userId = sessionStorage.getItem('user_id'); 
+        
         console.log(userId);
-    
+        console.log(Array.from(checkItems));
         const requestBody = {
           user: userId,
           userclass: Array.from(checkItems)

@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 import * as s from "./styles";
-import checkItemHandler from "../../pages/Lecturepage";
 
-export default function LectureChoice(props) {
+export default function LectureChoice({ id, title, checkItemHandler }) {
     
-    // const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(false);
 
-    // const checkHandled = ({target}) => {
-    //     setChecked(!checked);
-    //     checkItemHandler(target.id, target.checked);
-    // }
+    const checkHandled = ({target}) => {
+        setChecked(!checked);
+        checkItemHandler(id, target.checked);
+    }
 
     return (
         <>
-            <s.LectureContainer key={props.id}>
+            <s.LectureContainer>
                     <s.CheckBox
                         type="checkbox"
-                        id={props.id}
+                        id={id}
+                        checked={checked}
                         name="lecture"
+                        onChange={(e) => checkHandled(e)}
                         
                     />
-                    <s.LectureTextLabel htmlFor={props.id}>
+                    <s.LectureTextLabel htmlFor={id}>
                         <s.LectureTitle>
-                            {props.title}
+                            {title}
                         </s.LectureTitle>
                     </s.LectureTextLabel>
             </s.LectureContainer>
