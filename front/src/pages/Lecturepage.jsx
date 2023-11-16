@@ -8,9 +8,22 @@ function Lecturepage(props) {
 
     const [lectures, setLectures] = useState([]);
 
+    const [checkItems, setCheckItems] = useState(new Set());
+
+    const checkItemHandler = (id, isChecked) => {
+      const newCheckItems = new Set(checkItems);
+      if (isChecked) {
+        newCheckItems.add(id);
+      } else {
+        newCheckItems.delete(id);
+      }
+      setCheckItems(newCheckItems);
+    };
+
+
     const get_classpick = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/eclass/classlist/');
+        const response = await axios.get('http://127.0.0.1:8000/register/classlist/');
         console.log(response.data); 
         if (Array.isArray(response.data)) { 
           setLectures(response.data);
@@ -23,21 +36,23 @@ function Lecturepage(props) {
     useEffect(() => {
       get_classpick();
     }, []);
-  
-    // const checkList = [...Array(5).fill("체크").map((v, i => v + i))]
 
-    const [checkItems, setCheckItems] = useState(new Set());
-
-    const checkItemHandler = (id, isChecked) => {
-        if (isChecked) {
-          checkItems.add(id) 
-          setCheckItems(checkItems)
-          console.log(checkItems)
-        } else if (!isChecked) {
-          checkItems.delete(id)
-          setCheckItems(checkItems)
-        }
+    const post_classpick = async () => {
+      try {
+        const userId = sessionStorage.getItem('user_id'); 
+        console.log(userId);
+    
+        const requestBody = {
+          user: userId,
+          userclass: Array.from(checkItems)
+        };
+    
+        const response = await axios.post('http://127.0.0.1:8000/register/userclasslist/', requestBody);
+        console.log(response.data);
+      } catch (err) {
+        console.log(err);
       }
+    }; 
 
     return (
         <>
@@ -58,7 +73,7 @@ function Lecturepage(props) {
                     ))}
                   </s.lectureComponent>
                   <s.lectureBtn>
-                    <s.confirmBtn>확인</s.confirmBtn>
+                    <s.confirmBtn onClick={post_classpick}>확인</s.confirmBtn>
                   </s.lectureBtn>
                 </s.CheckBoxList>
               </s.Box>

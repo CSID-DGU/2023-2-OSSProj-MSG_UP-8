@@ -95,11 +95,6 @@ function LogoutCal(props) {
 
     const [events, setEvents] = useState([]);
 
-    // const getRandomColor = () => {
-    //   const colors = ['#E72F4B', '#7FDD21', '#356eff'];
-    //   return colors[Math.floor(Math.random() * colors.length)];
-    // };
-
     const colors = ['#E72F4B', '#7FDD21', '#356eff'];
 
     useEffect(() => {

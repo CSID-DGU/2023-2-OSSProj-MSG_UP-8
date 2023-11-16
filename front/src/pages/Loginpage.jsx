@@ -51,6 +51,10 @@ function Login(props) {
               // 토큰 저장
               const token = res.data.token; // 또는 백엔드에서 전달하는 토큰 키에 따라 달라질 수 있습니다.
               sessionStorage.setItem('token', token);
+
+              const user_id = res.data.user_id;
+              sessionStorage.setItem('user_id', user_id);
+              console.log(user_id);
           
               // 모든 후속 axios 요청에 Authorization 헤더 추가
               axios.defaults.headers.common['Authorization'] = `Token ${token}`;
