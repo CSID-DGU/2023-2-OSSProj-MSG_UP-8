@@ -1,5 +1,7 @@
-from django.shortcuts import redirect
-from rest_framework import generics, status
+import logging
+
+logger = logging.getLogger(__name__)
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
@@ -76,6 +78,8 @@ class UserClassListView(APIView):
         user = request.user
         serializer = UserClasslistSerializer(data=request.data)
         if serializer.is_valid():
+        # 로그에 validated_data 기록
+            logger.debug(f"Validated data: {serializer.validated_data}")
         # 이미 존재하는 사용자-강의 관계를 업데이트하거나 새로운 관계를 생성
             user_classlist, created = UserClasslist.objects.get_or_create(user=user)
             user_classlist.userclass.set(serializer.validated_data['userclass'])
