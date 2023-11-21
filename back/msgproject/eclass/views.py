@@ -46,7 +46,7 @@ class LoginView(APIView):
         if user:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'message': 'Login successful', 'token': token.key})
+            return Response({'message': 'Login successful', 'token': token.key, 'user_id': user.id})
         else:
             return Response({'message': 'Login failed'}, status=401)
 
