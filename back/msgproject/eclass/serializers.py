@@ -18,7 +18,6 @@ class Classserializer(serializers.ModelSerializer):
 
 class UserClasslistSerializer(serializers.ModelSerializer):
     userclass = serializers.PrimaryKeyRelatedField(many=True, queryset=Classlist.objects.all())
-
     
     class Meta:
         model = UserClasslist

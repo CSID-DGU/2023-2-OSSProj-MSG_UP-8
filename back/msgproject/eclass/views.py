@@ -1,5 +1,4 @@
-from django.shortcuts import redirect
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +8,7 @@ from .models import UserProfile, Classlist, UserClasslist
 from .serializers import UserProfileSerializer, Classserializer, UserClasslistSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
+
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -24,6 +24,7 @@ class RegisterView(APIView):
         user_profile.save()
 
         return Response({'message': 'User registered successfully'})
+
 
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
@@ -75,14 +76,17 @@ class UserClassListView(APIView):
         user = request.user
         serializer = UserClasslistSerializer(data=request.data)
         if serializer.is_valid():
-        # 이미 존재하는 사용자-강의 관계를 업데이트하거나 새로운 관계를 생성
-            user_classlist, created = UserClasslist.objects.get_or_create(user=user)
-            user_classlist.userclass.set(serializer.validated_data['userclass'])
+
+            # 이미 존재하는 사용자-강의 관계를 업데이트하거나 새로운 관계를 생성
+            user_classlist, created = UserClasslist.objects.get_or_create(
+                user=user)
+            user_classlist.userclass.set(
+                serializer.validated_data['userclass'])
             user_classlist.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
-            user_classlist = UserClasslist.objects.all()
-            serializer = UserClasslistSerializer(user_classlist, many=True)
-            return Response(serializer.data)
+        user_classlist = UserClasslist.objects.all()
+        serializer = UserClasslistSerializer(user_classlist, many=True)
+        return Response(serializer.data)
