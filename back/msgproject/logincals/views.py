@@ -13,7 +13,7 @@ class EventCreateView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.validated_data)
         return Response(serializer.errors, status=400)
 
 class EventListView(APIView):
