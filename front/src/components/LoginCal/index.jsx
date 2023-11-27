@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import styled from "@emotion/styled";
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -87,11 +88,6 @@ export const Wrapper = styled.div`
     }
 `;
 
-// export const WrappFullCalendar = styled.div`
-//     width: 100%;
-//     height: 100%;
-// `;
-
 function LoginCal(props) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
@@ -100,68 +96,170 @@ function LoginCal(props) {
   const [newEventEnd, setNewEventEnd] = useState('');
   const [selectedEventId, setSelectedEventId] = useState('');
 
-  const openModal = (startStr, endStr, eventId) => {
+  const axiosInstance = axios.create();
+
+  axiosInstance.interceptors.request.use(config => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Token ${token}`;
+      // console.log(token)
+    }
+    return config;
+  });
+
+    // 색상 선택
+  const [eventColor, setEventColor] = useState('#ffffff');
+
+  const handleColorChange = (e) => {
+    setEventColor(e.target.value);
+    console.log("색상",e.target.value);
+  };
+
+  // 모든 일정 불러오기
+  useEffect(() => {
+    const get_AllEvents = async () => {
+      try {
+        const response = await axiosInstance.get('http://127.0.0.1:8000/logincals/events/list/');
+
+        const getAllEvents = response.data.map(event => ({
+          id: event.id,
+          title: event.in_title,
+          start: event.in_startdate,
+          end: event.in_enddate,
+          backgroundColor: event.color
+        }));
+        setEvents(getAllEvents);
+      } catch (err) {
+        console.error('Error get All events:', err);
+      }
+    };
+  
+    get_AllEvents();
+  }, []);
+
+  // 특정 일정 불러오기
+  const openModal = async (startStr, endStr, eventId) => {
     setNewEventStart(startStr);
     setNewEventEnd(endStr);
     setSelectedEventId(eventId);
+    console.log("이벤트 아이디",eventId);
     setNewEventTitle(''); 
+
+    if (eventId) {
+      try {
+        const response = await axiosInstance.get(`http://127.0.0.1:8000/logincals/events/detail/${eventId}/`);
+        const event = response.data;
+        setNewEventTitle(event.in_title);
+        setNewEventStart(event.in_startdate);
+        setNewEventEnd(event.in_enddate);
+      } catch (err) {
+        console.error('Error get event details:', err);
+      }
+    }
+  
     setIsOpen(true);
   };
-
+  
   const closeModal = () => {
     setIsOpen(false);
   };
 
   const handleDateClick = (arg) => {
-    openModal(arg.dateStr);
+    
+    openModal(arg.dateStr, arg.dateStr);
+    console.log(arg)
   };
 
   const handleSelect = (selectInfo) => {
     openModal(selectInfo.startStr, selectInfo.endStr);
   };
 
-  const handleEventAdd = () => {
+
+  // 일정 추가
+  const handleEventAdd = async () => {
     if (newEventTitle) {
-      const newEvent = {
-        title: newEventTitle,
-        start: newEventStart,
-        end: newEventEnd,
-        id: events.length.toString(),
-        allDay: true,
-        color: eventColor,
-      };
-      setEvents([...events, newEvent]);
-      closeModal();
+      try {
+        const response = await axiosInstance.post('http://127.0.0.1:8000/logincals/events/', {
+          in_title: newEventTitle,
+          in_startdate: newEventStart,
+          in_enddate: newEventEnd,
+          color: eventColor
+        });
+        
+        const newEvent = {
+          title: newEventTitle,
+          start: newEventStart,
+          end: newEventEnd,
+          id: response.data.id,
+          allDay: true,
+          color: eventColor
+        };
+  
+        setEvents([...events, newEvent]);
+        closeModal();
+      } catch (err) {
+        console.error('Error adding new event:', err);
+        
+      }
     }
   };
-  const [eventColor, setEventColor] = useState('#ffffff');
 
   const handleEventClick = (clickInfo) => {
+    console.log("id=",clickInfo.event.id);
     setNewEventTitle(clickInfo.event.title);
     setNewEventStart(clickInfo.event.start);
     setNewEventEnd(clickInfo.event.end);
     setEventColor(clickInfo.event.backgroundColor);
     setSelectedEventId(clickInfo.event.id); 
     setIsOpen(true);
-    // openModal(clickInfo.event.start, clickInfo.event.end, clickInfo.event.id);
+    openModal(clickInfo.event.start, clickInfo.event.end, clickInfo.event.id);
+    
   };
 
-  const updateEvent = () => {
-    const updatedEvents = events.map(event => {
-      if (event.id === selectedEventId) {
-        return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
+
+  // 이벤트 수정 api
+  const updateEvent = async () => {
+    if (selectedEventId) {
+      try {
+        await axiosInstance.put(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`, {
+          in_title: newEventTitle,
+          in_startdate: newEventStart,
+          in_enddate: newEventEnd,
+          color: eventColor
+        });
+  
+        // 클라이언트 상태 업데이트
+        const updatedEvents = events.map(event => {
+          if (event.id === selectedEventId) {
+            return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
+          }
+          return event;
+        });
+        setEvents(updatedEvents);
+        closeModal();
+      } catch (err) {
+        console.error('Error updating event:', err);
       }
-      return event;
-    });
-    setEvents(updatedEvents);
-    closeModal();
+    }
   };
+  
 
-  const deleteEvent = () => {
-    const filteredEvents = events.filter(event => event.id !== selectedEventId);
-    setEvents(filteredEvents);
-    closeModal();
+  // 이벤트 삭제 api
+  const deleteEvent = async () => {
+    if (selectedEventId) {
+      try {
+        await axiosInstance.delete(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`);
+  
+        // 클라이언트 상태 업데이트
+        const filteredEvents = events.filter(event => event.id !== selectedEventId);
+        setEvents(filteredEvents);
+        closeModal();
+      } catch (err) {
+        console.error('Error deleting event:', err);
+      }
+    }
   };
+  
 
   return (
     <Wrapper>
@@ -227,7 +325,7 @@ function LoginCal(props) {
           <input
             type="color"
             value={eventColor}
-            onChange={(e) => setEventColor(e.target.value)}
+            onChange={handleColorChange}
             style={{ width: '200px', height: '50px', border: '1px solid #CDCDCD', borderRadius: '5px' }}
           />
         <div>

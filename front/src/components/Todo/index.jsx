@@ -14,7 +14,6 @@ export default function Todo({ date, user_id }) {
     const token = sessionStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Token ${token}`;
-      // console.log(token)
     }
     return config;
   });
@@ -70,7 +69,6 @@ export default function Todo({ date, user_id }) {
         } catch (err) {
             console.error('Error updating todo:', err);
         }
-        console.log("putput",todo.id);
     };
 
     // 삭제 todo
