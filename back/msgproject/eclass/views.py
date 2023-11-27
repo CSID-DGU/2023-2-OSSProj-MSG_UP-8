@@ -76,10 +76,10 @@ class UserClassListView(APIView):
         user = request.user
         serializer = UserClasslistSerializer(data=request.data)
         if serializer.is_valid():
-
+            user_profile = UserProfile.objects.get(user=user)
             # 이미 존재하는 사용자-강의 관계를 업데이트하거나 새로운 관계를 생성
             user_classlist, created = UserClasslist.objects.get_or_create(
-                user=user)
+                user=user_profile)
             user_classlist.userclass.set(
                 serializer.validated_data['userclass'])
             user_classlist.save()
