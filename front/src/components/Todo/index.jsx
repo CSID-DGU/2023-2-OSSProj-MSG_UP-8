@@ -1,109 +1,134 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import todo_plus from "../../assets/image/todo_plus.png";
-import todo_trash from "../../assets/image/todo_trash.svg";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import todoPlusIcon from "../../assets/image/todo_plus.png";
+import todoTrashIcon from "../../assets/image/todo_trash.svg";
 import * as s from "./styles.js";
 
-export default function Todo(props) {
+export default function Todo({ date, user_id }) {
 
-    // const [todos, setTodo] = useState([]);
 
-    const today = new Date();
+  //권한 설정
+  const axiosInstance = axios.create();
 
-    const dateString = today.toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  axiosInstance.interceptors.request.use(config => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Token ${token}`;
+      // console.log(token)
+    }
+    return config;
+  });
+    const [todos, setTodos] = useState([]);
+    const [input, setInput] = useState('');
+    const [deleteBool, setDeleteBool] = useState(false);
+    const [post, setPost] = useState(false);
+
+    useEffect(() => {
+        const get_Todos = async () => {
+            try {
+                const response = await axiosInstance.get('http://127.0.0.1:8000/todo/todoitems/list/');
+                setTodos(response.data);
+                console.log(response.data);
+            } catch (err) {
+                console.error('Error fetching todos:', err);
+            }
+        };
+
+        get_Todos();
+    }, [deleteBool, post]);
+
   
+    const today = new Date();
+    const dateString = today.toLocaleString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
     const dayName = today.toLocaleString('ko-KR', { weekday: 'long' });
 
-    // const [delete_bool, setDeleteBool] = useState(false);
 
-    // const [data, setData] = useState({
-    //     id:'',
-    //     title: '',
-    //     todo_date: '',
-    // });
+    const post_Todo = async () => {
+        try {
+            await axiosInstance.post('http://127.0.0.1:8000/todo/todoitems/', {
+                todo_title: input,
+                due_date: date,
+            });
+            setPost(!post);
+            setInput('');
+        } catch (err) {
+            console.error('Error adding todo:', err);
+        }
+    };
 
-    // const get_todo = useEffect(() => {
-    //     get_todo();
-    // }, [delete_bool]);
+    // 체크시 todo
+    const put_Todo = async (todo) => {
+      
+        try {
+            await axiosInstance.put(`http://127.0.0.1:8000/todo/todoitems/detail/${todo.id}/`, {
+                todo_title: todo.todo_title,
+                completed: !todo.completed,
+                due_date: date,
+            });
+            setTodos((prevTodos) => prevTodos.map(t => t.id === todo.id ? { ...t, completed: !t.completed } : t));
+            console.log(todos);
+        } catch (err) {
+            console.error('Error updating todo:', err);
+        }
+        console.log("putput",todo.id);
+    };
 
-    // const [post, setPost] = useState(false);
-    // const post_todo = useEffect(() => {
-    //     get_todo();
-    // }, [post]);
+    // 삭제 todo
+    const delete_Todo = async (todoId) => {
+        try {
+            await axiosInstance.delete(`http://127.0.0.1:8000/todo/todoitems/detail/${todoId}/`);
+            setTodos((prevTodos) => prevTodos.filter(t => t.id !== todoId));
+            setDeleteBool(!deleteBool);
+        } catch (err) {
+            console.error('Error deleting todo:', err);
+        }
+    };
 
-    const [checked, setChecked] = useState(false);
-
-
-    return(
+    return (
         <>
             <s.TodoContainer>
                 <s.TodoTitle>
                     In Dongguk To do list
                     <s.Today>
-                        <s.TodayDate>
-                        {dateString}
-                        </s.TodayDate>
-
-                        <s.TodayDay>
-                        {dayName}
-                        </s.TodayDay>
-
+                        <s.TodayDate>{dateString}</s.TodayDate>
+                        <s.TodayDay>{dayName}</s.TodayDay>
                     </s.Today>
                 </s.TodoTitle>
 
                 <s.TodoInputBox>
-                    <s.TodoInput placeholder="오늘의 할 일을 적어보세요!" />
-                    <img src={todo_plus} alt="" />
+                    <s.TodoInput
+                        placeholder="오늘의 할 일을 적어보세요!"
+                        value={input}
+                        onChange={e => setInput(e.target.value)}
+                    />
+                    <img
+                        src={todoPlusIcon}
+                        onClick={post_Todo}
+                        alt="Add Todo"
+                    />
                 </s.TodoInputBox>
-
                 <s.TodoList>
-                    {/* 예시 */}
-                    <s.TodoListItem>
-                        <s.box>
-                            <s.CheckBox
-                                type="checkbox"
-                                onClick={!checked}
-                            />
-                            <s.text>
-                            프로젝트 회의 : 아이디어 토의
-                            </s.text>
-                        </s.box>
-                        <img src={todo_trash} alt="" />
-                    </s.TodoListItem>
-
-                    <s.TodoListItem>
-                        <s.box>
-                            <s.CheckBox
-                                type="checkbox"
-                                onClick={checked}
-                            />
-                            <s.text>
-                            교양보고서 작성
-                            </s.text>
-                        </s.box>
-                        <img src={todo_trash} alt="" />
-                    </s.TodoListItem>
-
-                    <s.TodoListItem>
-                        <s.box>
-                            <s.CheckBox
-                                type="checkbox"
-                                onClick={checked}
-                            />
-                            <s.text>
-                            동아리 6시 정기모임
-                            </s.text>
-                        </s.box>
-                        <img src={todo_trash} alt="" />
-                    </s.TodoListItem>
-
-                </s.TodoList>
+                  {todos
+                    //   .filter(todo => todo.due_date === date && todo.owner === sessionStorage.getItem('user_id'))
+                      .map((todo,index) => (
+                          <s.TodoListItem key={index} id={todo.id}>
+                              <s.Box>
+                                <s.CheckBox
+                                    type="checkbox"
+                                    checked={todo.completed}
+                                    onChange={() => put_Todo(todo)}
+                                />
+                                <s.Text>{todo.todo_title}</s.Text>
+                              </s.Box>
+                              <img
+                                  src={todoTrashIcon}
+                                  alt="Delete Todo"
+                                  onClick={() => delete_Todo(todo.id)}
+                              />
+                          </s.TodoListItem>
+                      ))}
+                    </s.TodoList>
             </s.TodoContainer>
-
         </>
     );
 }
