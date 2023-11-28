@@ -59,6 +59,27 @@ function MainPage(props) {
         { id: 3, title: "융합프로그래밍1", time: "15:00-16:30"},
     ]
 
+    const post_logout = () => {
+        const token = sessionStorage.getItem('token');
+    
+        axios.post('http://127.0.0.1:8000/logout/', {}, {
+            headers: {
+                Authorization: `Token ${token}`
+            }
+        })
+        .then(() => {
+            // 성공적으로 로그아웃 처리되었을 때 실행할 로직
+            sessionStorage.removeItem('auth');
+            sessionStorage.removeItem('token');
+            setIsLogin(false);
+            navigate('/'); // 로그인 페이지로 이동
+        })
+        .catch(error => {
+            console.log('Error during logout:', error);
+        });
+    };
+    
+
     return(
         <>
             <s.Wrapper>
@@ -71,7 +92,7 @@ function MainPage(props) {
                                     <img
                                         src={eclass_logo}
                                         alt="" />
-                                    <s.main_logout_btn>로그아웃</s.main_logout_btn>
+                                    <s.main_logout_btn onClick={post_logout}>로그아웃</s.main_logout_btn>
                                     <s.UserBox>
                                         <s.User>
                                         <p>{userName}</p>

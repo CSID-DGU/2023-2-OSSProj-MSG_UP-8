@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
 import * as s from '../style/Lecture.style.js'
 import LectureChoice from "../components/LectureChoice";
 import eclass_logo from '../assets/image/eclass_logo.png';
 import axios from "axios";
 
 function Lecturepage(props) {
+
+    const navigate = useNavigate();
 
     const [lectures, setLectures] = useState([]);
 
@@ -51,6 +54,7 @@ function Lecturepage(props) {
     
         const response = await axios.post('http://127.0.0.1:8000/register/userclasslist/', requestBody);
         console.log(response.data);
+        navigate(`/`);
       } catch (err) {
         console.log(err);
       }
