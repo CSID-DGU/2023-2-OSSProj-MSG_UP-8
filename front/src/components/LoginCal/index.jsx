@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 import styled from "@emotion/styled";
 import FullCalendar from '@fullcalendar/react';
@@ -95,6 +95,8 @@ function LoginCal(props) {
   const [newEventStart, setNewEventStart] = useState('');
   const [newEventEnd, setNewEventEnd] = useState('');
   const [selectedEventId, setSelectedEventId] = useState('');
+  const calendarRef = useRef(null);
+
 
   const axiosInstance = axios.create();
 
@@ -120,20 +122,19 @@ function LoginCal(props) {
     const get_AllEvents = async () => {
       try {
         const response = await axiosInstance.get('http://127.0.0.1:8000/logincals/events/list/');
-
+        console.log("캘린더",response);
         const getAllEvents = response.data.map(event => ({
           id: event.id,
           title: event.in_title,
           start: event.in_startdate,
           end: event.in_enddate,
-          backgroundColor: event.color
+          color: event.color
         }));
         setEvents(getAllEvents);
       } catch (err) {
         console.error('Error get All events:', err);
       }
-    };
-  
+    }; 
     get_AllEvents();
   }, []);
 
@@ -218,8 +219,38 @@ function LoginCal(props) {
 
 
   // 이벤트 수정 api
+  // const updateEvent = async () => {
+  //   if (selectedEventId) {
+  //     try {
+  //       await axiosInstance.put(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`, {
+  //         in_title: newEventTitle,
+  //         in_startdate: newEventStart,
+  //         in_enddate: newEventEnd,
+  //         color: eventColor
+  //       });
+  
+        // 클라이언트 상태 업데이트
+  //       const updatedEvents = events.map(event => {
+  //         if (event.id === selectedEventId) {
+  //           return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
+  //         }
+  //         return event;
+  //       });
+  //       setEvents(updatedEvents);
+  //       closeModal();
+  //     } catch (err) {
+  //       console.error('Error updating event:', err);
+  //     }
+  //   }
+  //   if (calendarRef.current) {
+  //     const calendarApi = calendarRef.current.getApi();
+  //     calendarApi.refetchEvents();
+  //   }
+  // };
+
+  // 수정 이벤트 처리 - 바로 캘린더에 반영
   const updateEvent = async () => {
-    if (selectedEventId) {
+    if (selectedEventId && calendarRef.current) {
       try {
         await axiosInstance.put(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`, {
           in_title: newEventTitle,
@@ -228,14 +259,14 @@ function LoginCal(props) {
           color: eventColor
         });
   
-        // 클라이언트 상태 업데이트
-        const updatedEvents = events.map(event => {
-          if (event.id === selectedEventId) {
-            return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
-          }
-          return event;
-        });
-        setEvents(updatedEvents);
+        // 캘린더 API를 사용하여 이벤트 업데이트
+        const calendarApi = calendarRef.current.getApi();
+        let event = calendarApi.getEventById(selectedEventId);
+        if (event) {
+          event.setProp('title', newEventTitle);
+          event.setDates(newEventStart, newEventEnd);
+          event.setProp('backgroundColor', eventColor);
+        }
         closeModal();
       } catch (err) {
         console.error('Error updating event:', err);
@@ -243,16 +274,41 @@ function LoginCal(props) {
     }
   };
   
+  
 
   // 이벤트 삭제 api
+  // const deleteEvent = async () => {
+  //   if (selectedEventId) {
+  //     try {
+  //       await axiosInstance.delete(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`);
+  
+  //       // 클라이언트 상태 업데이트
+  //       const filteredEvents = events.filter(event => event.id !== selectedEventId);
+  //       setEvents(filteredEvents);
+  //       closeModal();
+  //     } catch (err) {
+  //       console.error('Error deleting event:', err);
+  //     }
+  //   }
+  //   if (calendarRef.current) {
+  //     const calendarApi = calendarRef.current.getApi();
+  //     calendarApi.refetchEvents();
+  //   }
+  // };
+
+
+  // 삭제 이벤트처리 - 바로 캘린더에 반영
   const deleteEvent = async () => {
-    if (selectedEventId) {
+    if (selectedEventId && calendarRef.current) {
       try {
         await axiosInstance.delete(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`);
   
-        // 클라이언트 상태 업데이트
-        const filteredEvents = events.filter(event => event.id !== selectedEventId);
-        setEvents(filteredEvents);
+        // 캘린더 API를 사용하여 이벤트 삭제
+        const calendarApi = calendarRef.current.getApi();
+        let event = calendarApi.getEventById(selectedEventId);
+        if (event) {
+          event.remove();
+        }
         closeModal();
       } catch (err) {
         console.error('Error deleting event:', err);
@@ -260,10 +316,12 @@ function LoginCal(props) {
     }
   };
   
+  
 
   return (
     <Wrapper>
       <FullCalendar
+        ref={calendarRef}
         plugins={[ dayGridPlugin, interactionPlugin ]}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
