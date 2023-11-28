@@ -7,6 +7,18 @@ import axios from "axios";
 
 function Lecturepage(props) {
 
+    //권한 설정
+    const axiosInstance = axios.create();
+
+    axiosInstance.interceptors.request.use(config => {
+      const token = sessionStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Token ${token}`;
+      }
+      return config;
+    });
+
+    const [userId, setUserId] = useState('');
     const navigate = useNavigate();
 
     const [lectures, setLectures] = useState([]);
@@ -41,18 +53,40 @@ function Lecturepage(props) {
       get_classpick();
     }, []);
 
+
+    useEffect(() => {
+      // 로컬 스토리지나 세션 스토리지에서 로그인 상태 확인
+      const auth = sessionStorage.getItem('auth');
+      if (auth === 'true') {
+          // 인증 토큰을 세션 스토리지에서 가져옵니다.
+          const token = sessionStorage.getItem('token');
+
+          axios.get('http://127.0.0.1:8000/profile/', {
+              headers: {
+                  Authorization: `Token ${token}`
+              }
+
+          })
+          .then(response => {
+            const userId = response.data.id;
+            setUserId(userId);  
+          })
+          .catch(error => {
+              console.log('Error fetching user data:', error);
+          });
+      }
+  }, []);
+
     const post_classpick = async () => {
       try {
-        const userId = sessionStorage.getItem('user_id'); 
         
-        console.log(userId);
         console.log(Array.from(checkItems));
         const requestBody = {
           user: userId,
           userclass: Array.from(checkItems)
         };
     
-        const response = await axios.post('http://127.0.0.1:8000/register/userclasslist/', requestBody);
+        const response = await axiosInstance.post('http://127.0.0.1:8000/register/userclasslist/', requestBody);
         console.log(response.data);
         navigate(`/`);
       } catch (err) {
