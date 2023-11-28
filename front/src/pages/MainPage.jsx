@@ -13,20 +13,19 @@ import axios from "axios";
 
 function MainPage(props) {
 
-
+    const [lectures, setLectures] = useState([]);
     const [isLogin, setIsLogin] = useState(false);
     const [userName, setUserName] = useState('');
     const [studentNum, setStudentNum] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        // 로컬 스토리지나 세션 스토리지에서 로그인 상태 확인
         const auth = sessionStorage.getItem('auth');
         setIsLogin(auth === 'true');
     
-        // 로그인 상태일 경우 사용자 정보를 가져옵니다.
+        
         if (auth === 'true') {
-            // 인증 토큰을 세션 스토리지에서 가져옵니다.
+            
             const token = sessionStorage.getItem('token');
 
             axios.get('http://127.0.0.1:8000/profile/', {
@@ -52,13 +51,7 @@ function MainPage(props) {
             navigate(`/login`);
     };
 
-    // LectureItem 더미
-    const Ldata = [
-        { id: 1, title: "컴퓨터 시스템", time: "09:00-10:30" },
-        { id: 2, title: "오픈소프트웨어 프로젝트", time: "13:00-15:00" },
-        { id: 3, title: "융합프로그래밍1", time: "15:00-16:30"},
-    ]
-
+    // 로그아웃 API
     const post_logout = () => {
         const token = sessionStorage.getItem('token');
     
@@ -68,17 +61,36 @@ function MainPage(props) {
             }
         })
         .then(() => {
-            // 성공적으로 로그아웃 처리되었을 때 실행할 로직
+ 
             sessionStorage.removeItem('auth');
             sessionStorage.removeItem('token');
             setIsLogin(false);
-            navigate('/'); // 로그인 페이지로 이동
+            navigate('/'); 
         })
         .catch(error => {
             console.log('Error during logout:', error);
         });
     };
     
+    // 선택한 강의 가져오기 API
+    useEffect(() => {
+        // 인증 토큰을 세션 스토리지에서 가져옵니다.
+        const token = sessionStorage.getItem('token');
+        const config = {
+            headers: { Authorization: `Token ${token}` }
+        };
+
+        axios.get('http://127.0.0.1:8000/register/userclasslist/', config)
+            .then(response => {
+                // 서버에서 받은 강의 데이터를 상태에 설정합니다.
+                setLectures(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching lectures:', error);
+            });
+    }, []);
+
+    console.log("유저한 선택한 강의",lectures)
 
     return(
         <>
@@ -118,9 +130,19 @@ function MainPage(props) {
                                         {/* 강의 컴포넌트 */}
                                         <s.Item>
                                             <s.Main_Lecture_item>
-                                                {Ldata.map((item, index) => (
-                                                    <LectureItem key={index} id={item.id} title={item.title} time={item.time} />
-                                                ))}
+                                            {
+                                                lectures.map((lecture, index) => {
+
+                                                    return lecture.userclass.map((classInfo, classIndex) => (
+                                                        <LectureItem 
+                                                            key={`${index}-${classIndex}`} 
+                                                            id={classInfo.id} 
+                                                            title={classInfo.name} 
+                                                            place={classInfo.place} 
+                                                        />
+                                                    ));
+                                                })
+                                            }
                                             </s.Main_Lecture_item>
                                         </s.Item>
 
