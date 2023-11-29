@@ -13,21 +13,12 @@ class UserProfile(models.Model):
 class Classlist(models.Model):
     name = models.CharField(max_length=50)
     professor = models.CharField(max_length=20, blank=False, null=False)
-    DAYS_OF_WEEK = (
-        ('월', 'Monday'),
-        ('화', 'Tuesday'),
-        ('수', 'Wednesday'),
-        ('목', 'Thursday'),
-        ('금', 'Friday'),
-        ('토', 'Saturday'),
-        ('일', 'Sunday'),
-    )
-    day1 = models.CharField(max_length=2, choices=DAYS_OF_WEEK, blank=True, null=True)
-    day2 = models.CharField(max_length=2, choices=DAYS_OF_WEEK, blank=True, null=True)
-    starttime1 = models.TimeField(blank=True, null=True)
-    endtime1 = models.TimeField(blank=True, null=True)
-    starttime2 = models.TimeField(blank=True, null=True)
-    endtime2 = models.TimeField(blank=True, null=True)
+    day1 = models.CharField(max_length=2, blank=True, null=True)
+    day2 = models.CharField(max_length=2, blank=True, null=True)
+    starttime1 = models.CharField(max_length=20, blank=True, null=True)
+    endtime1 = models.CharField(max_length=20, blank=True, null=True)
+    starttime2 = models.CharField(max_length=20, blank=True, null=True)
+    endtime2 = models.CharField(max_length=20, blank=True, null=True)
     place = models.CharField(max_length=100, blank=True, null=True)
     major = models.CharField(max_length=50, blank=False, null=False)
 

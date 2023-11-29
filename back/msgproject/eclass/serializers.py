@@ -3,6 +3,7 @@ from .models import UserProfile
 
 from .models import Classlist, UserClasslist
 
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
@@ -17,11 +18,10 @@ class Classserializer(serializers.ModelSerializer):
 
 
 class UserClasslistSerializer(serializers.ModelSerializer):
+    userclass = serializers.PrimaryKeyRelatedField(many=True, queryset=Classlist.objects.all())
+    # userclass = Classserializer(many=True, read_only=True)
+    # user = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all())
 
-    userclass = Classserializer(many=True, read_only=True)
-    # userclass = serializers.PrimaryKeyRelatedField(many=True, queryset=Classlist.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all())
-    
     class Meta:
         model = UserClasslist
         fields = ['user', 'userclass']
