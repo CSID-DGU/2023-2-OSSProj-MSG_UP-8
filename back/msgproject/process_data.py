@@ -17,7 +17,7 @@ dtype={
 df.to_sql(name='logoutcals_schedule', con=conn, if_exists='replace', dtype=dtype, index=True, index_label="id")
 conn.close()
 
-# CSV 파일을 Pandas DataFrame으로 읽기 (헤더 무시)
+# CSV 파일을 Pandas DataFrame으로 읽기 (헤더가 포함되어 있다고 가정)
 df = pd.read_csv('classlist.csv', encoding="euc-kr")
 
 
@@ -43,4 +43,5 @@ conn = sqlite3.connect(database)
 
 df.to_sql(name='eclass_classlist', con=conn, if_exists='replace', dtype=dtype, index=True, index_label="id")
 
+# 데이터베이스 연결 종료
 conn.close()
