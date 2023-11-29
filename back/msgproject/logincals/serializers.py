@@ -4,7 +4,7 @@ from .models import Event
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['in_title', 'in_startdate', 'in_enddate']
+        fields = ['id', 'in_title', 'in_startdate', 'in_enddate', 'color']
 
     def create(self, validated_data):
         # 현재 로그인한 사용자를 owner로 설정

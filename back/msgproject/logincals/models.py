@@ -6,6 +6,7 @@ class Event(models.Model):
     in_title = models.CharField(max_length=100)
     in_startdate = models.DateField()
     in_enddate = models.DateField()
+    color = models.CharField(max_length=7, null=True) 
 
     def __str__(self):
         return self.in_title

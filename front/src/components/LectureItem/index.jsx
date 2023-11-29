@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import * as s from "./styles.js";
 
 export default function LectureItem(props) {
@@ -13,7 +13,7 @@ export default function LectureItem(props) {
                         <s.LecturePageBtn>강의실 가기</s.LecturePageBtn>
                     </s.Title>
                     <s.Time>
-                        <s.LectureTime>강의 시간 : {props.time}</s.LectureTime>
+                        <s.LectureTime>강의 장소 : {props.place}</s.LectureTime>
                     </s.Time>
 
                     <s.BtnContainer>

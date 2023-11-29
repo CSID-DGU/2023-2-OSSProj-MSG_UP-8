@@ -58,26 +58,35 @@ export const TodoInput = styled.input`
 export const TodoListItem = styled.div`
     display: flex;
     height: 25px;
-    margin-top: 2%;
+    margin-top: 1.5%;
     overflow: scroll;
     align-items: center;
     justify-content: space-between;
     font-size: ${theme.FONT_SIZE.SMALL_SIZE};
 `;
 
+export const TodoList = styled.div`
+    overflow-y: auto;
+`;
+
 export const CheckBox = styled.input`
     border: none;
+    width: 20px;
+    height: 20px;
     margin-right: 3%;
-    font-size: ${theme.FONT_SIZE.SMALL_SIZE};
+    font-size: ${theme.FONT_SIZE.MAIN_SIZE};
 `;
 
-export const text = styled.div``;
+export const Text = styled.div`
+    font-weight: ${theme.FONT_WEIGHT.BOLDER}
+`;
 
-export const box = styled.div`
+export const Box = styled.div`
     display: flex;
-    width: 100%;
+    width: 80%;
     align-items: center;
+
 `;
-export const TodoList = styled.div``;
+
 
 

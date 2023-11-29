@@ -4,7 +4,7 @@ from .models import TodoItem
 class TodoItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = TodoItem
-        fields = ['todo_title', 'completed', 'due_date',]
+        fields = ['id', 'todo_title', 'completed', 'due_date',]
 
     def create(self, validated_data):
         # 현재 로그인한 사용자를 owner로 설정

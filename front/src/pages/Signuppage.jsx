@@ -80,7 +80,9 @@ function Signup(props) {
                 )
                 .then(res => {
                     post_login();
+                    console.log("회원가압",res);
                     navigate(`/lecture`);
+                    
 
             });
         } catch (err) {
