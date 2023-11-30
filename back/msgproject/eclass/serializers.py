@@ -25,3 +25,11 @@ class UserClasslistSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserClasslist
         fields = ['user', 'userclass']
+
+class UserClasslistGETSerializer(serializers.ModelSerializer):
+    userclass = Classserializer(many=True)
+    user = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all())
+
+    class Meta:
+        model = UserClasslist
+        fields = ['user', 'userclass']
