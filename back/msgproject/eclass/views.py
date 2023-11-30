@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import UserProfile, Classlist, UserClasslist
-from .serializers import UserProfileSerializer, Classserializer, UserClasslistSerializer
+from .serializers import UserProfileSerializer, Classserializer, UserClasslistSerializer, UserClasslistGETSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -91,5 +91,5 @@ class UserClassListView(APIView):
 
     def get(self, request):
             user_classlist = UserClasslist.objects.filter(user=request.user.userprofile)
-            serializer = UserClasslistSerializer(user_classlist, many=True)
+            serializer = UserClasslistGETSerializer(user_classlist, many=True)
             return Response(serializer.data)
