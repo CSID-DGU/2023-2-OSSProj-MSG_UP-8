@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'logoutcals',
     'todo',
     'corsheaders',
+    'timetable',
+    'classpage',
 ]
 
 MIDDLEWARE = [
