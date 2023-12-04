@@ -18,7 +18,7 @@ df.to_sql(name='logoutcals_schedule', con=conn, if_exists='replace', dtype=dtype
 conn.close()
 
 # CSV 파일을 Pandas DataFrame으로 읽기 (헤더가 포함되어 있다고 가정)
-df = pd.read_csv('classlist.csv', encoding="euc-kr")
+df = pd.read_csv('classlist.csv', encoding="utf-8")
 
 
 # 데이터 유형(dtype)을 지정
