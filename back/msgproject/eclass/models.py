@@ -26,3 +26,6 @@ class Classlist(models.Model):
 class UserClasslist(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     userclass = models.ManyToManyField(Classlist)
+
+    def __str__(self):
+        return f"{self.id} - {self.name}"
