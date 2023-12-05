@@ -17,5 +17,5 @@ urlpatterns = [
     path('todo/', include('todo.urls')),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('timetable/', include('timetable.urls')),
-    path('classpage/', include('classpage.urls')),
+    path('class/', include('classpage.urls')),
 ]
