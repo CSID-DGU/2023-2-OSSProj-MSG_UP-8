@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import ClassPage, UserProfile
-from .serializers import ClassPageSerializer, UserClasspageSerializer
+from .serializers import ClassPageSerializer, ClassDetailSerializer
 from eclass.models import UserClasslist
 
 
@@ -63,11 +63,15 @@ class ClassDetailView(APIView):
     def get(self, request, class_id):
         try:
             user_profile = UserProfile.objects.get(user=request.user)
-            class_info = UserClasslist.objects.get(id=class_id, user=user_profile)
-            serializer = UserClasspageSerializer(class_info)
-
-            return Response(serializer.data)
-        
+            user_classlist = UserClasslist.objects.filter(user=user_profile, userclass__id=class_id).first()
+            # class_info = Classlist.objects.get(id=class_id)#, user=user_profile)
+            if user_classlist:
+                class_instance = user_classlist.userclass.get(id=class_id)
+                serializer = ClassDetailSerializer(class_instance)
+                return Response(serializer.data)
+            else:
+                return Response({'error': '해당 강의를 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+            
         except UserProfile.DoesNotExist:
             return Response({'error': 'UserProfile 인스턴스를 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
         
