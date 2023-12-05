@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='ClassPage',
+            name='UserTimetable',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ClassPage', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='eclass.userclasslist')),
-                ('ClassUser', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='eclass.userprofile')),
+                ('userclasses', models.ManyToManyField(to='eclass.userclasslist')),
+                ('userprofile', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='eclass.userprofile')),
             ],
         ),
     ]
