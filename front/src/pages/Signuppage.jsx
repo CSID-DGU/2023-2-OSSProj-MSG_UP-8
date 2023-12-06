@@ -61,7 +61,8 @@ function Signup(props) {
     }
   };
 
-  const post_signup = async () => {
+  const post_signup = async (event) => {
+    event.preventDefault(); // 페이지 새로고침 방지
     sessionStorage.clear();
     try {
       await axios.post("http://127.0.0.1:8000/register/", inputs).then((res) => {

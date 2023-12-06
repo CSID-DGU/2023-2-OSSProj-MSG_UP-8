@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import axios from "axios";
 import * as s from "../style/LectureDetail.style.js";
 import ChosenLecture from "../components/ChosenLecture";
 
 function LectureDetailPage(props) {
+  const params = useParams();
+  const [lectureDetails, setLectureDetails] = useState(null);
   const [currentTab, clickTab] = useState(0);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Token ${token}` },
+    };
+    axios
+      .get(`http://127.0.0.1:8000/class/${params.pk}/`, config)
+      .then((response) => {
+        setLectureDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching lecture details", error);
+      });
+  }, []);
 
   const menuArr = [
     { name: "학습 목차", body: "1" },
@@ -135,16 +153,13 @@ function LectureDetailPage(props) {
       <s.Wrapper>
         <s.HeadContent>
           <s.TitleBox>
-            <s.LectureTitle>오픈소스 소프트웨어 프로젝트_01</s.LectureTitle>
+            <s.LectureTitle>{lectureDetails?.name}</s.LectureTitle>
           </s.TitleBox>
         </s.HeadContent>
 
         <s.ConArea>
           <s.ChosenArea>
-            <ChosenLecture
-              title="오픈소스 소프트웨어 프로젝트"
-              content="선택한 강의들 들어가야함"
-            />
+            <ChosenLecture title={lectureDetails?.name} content="content" />
           </s.ChosenArea>
         </s.ConArea>
 
