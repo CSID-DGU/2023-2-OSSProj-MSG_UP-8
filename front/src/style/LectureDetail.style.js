@@ -63,10 +63,6 @@ export const ConArea = styled.div`
   padding-left: 3%;
 `;
 
-export const ChosenArea = styled.div`
-  width: 20%;
-`;
-
 export const BodyContent = styled.div`
   width: 80%;
   height: 55%;

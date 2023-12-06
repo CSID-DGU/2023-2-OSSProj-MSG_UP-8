@@ -9,7 +9,28 @@ function LectureDetailPage(props) {
   const params = useParams();
   const class_id = params.pk;
   const [lectureDetails, setLectureDetails] = useState(null);
+  const [lectures, setLectures] = useState([]);
   const [currentTab, clickTab] = useState(0);
+
+  useEffect(() => {
+    // 인증 토큰을 세션 스토리지에서 가져옵니다.
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Token ${token}` },
+    };
+
+    axios
+      .get("http://127.0.0.1:8000/register/userclasslist/", config)
+      .then((response) => {
+        // 서버에서 받은 강의 데이터를 상태에 설정합니다.
+        setLectures(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching lectures:", error);
+      });
+  }, []);
+
+  console.log(lectures);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -24,7 +45,7 @@ function LectureDetailPage(props) {
       .catch((error) => {
         console.error("Error fetching lecture details", error);
       });
-  }, []);
+  }, [class_id]);
 
   const menuArr = [
     { name: "학습 목차", body: "1" },
@@ -159,9 +180,7 @@ function LectureDetailPage(props) {
         </s.HeadContent>
 
         <s.ConArea>
-          <s.ChosenArea>
-            <ChosenLecture title={lectureDetails?.name} content="content" />
-          </s.ChosenArea>
+          <ChosenLecture title={lectureDetails?.name} content={lectures} />
         </s.ConArea>
 
         <s.BodyContent>

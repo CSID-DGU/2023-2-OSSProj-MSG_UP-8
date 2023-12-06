@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import theme from "../../style/theme.js";
+import axios from "axios";
 
 export const Container = styled.div`
   display: flex;
@@ -28,18 +29,29 @@ export const Btn = styled.button`
 `;
 
 export const Content = styled.div`
-  margin: 0;
+  position: absolute;
+  width: 250px;
+  top: 100%;
   background-color: ${theme.COLORS.BACKGROUND_WHITE};
   color: ${theme.COLORS.BLACK};
   font-size: ${theme.FONT_SIZE.SMALL_SIZE};
   padding: 3px;
+  border-radius: 5px;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  position: relative;
 `;
 
 function ChosenLecture({ title, content }) {
   const [isChecked, setCheck] = useState(false);
+  console.log("내용", content);
 
   return (
-    <>
+    <Wrapper>
       <Container>
         <Title>{title}</Title>
         <Btn
@@ -50,8 +62,20 @@ function ChosenLecture({ title, content }) {
           {isChecked ? "▲" : "▼"}
         </Btn>
       </Container>
-      {isChecked && <Content>{content}</Content>}
-    </>
+      {isChecked && (
+        <Content>
+          {content.map((item, index) => (
+            <React.Fragment key={index}>
+              {item.userclass.map((uc, ucIndex) => (
+                <div key={ucIndex} style={{ padding: 4 }}>
+                  {uc.name}
+                </div>
+              ))}
+            </React.Fragment>
+          ))}
+        </Content>
+      )}
+    </Wrapper>
   );
 }
 export default ChosenLecture;
