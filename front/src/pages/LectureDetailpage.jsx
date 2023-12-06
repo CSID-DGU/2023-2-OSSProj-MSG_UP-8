@@ -7,6 +7,7 @@ import ChosenLecture from "../components/ChosenLecture";
 
 function LectureDetailPage(props) {
   const params = useParams();
+  const class_id = params.pk;
   const [lectureDetails, setLectureDetails] = useState(null);
   const [currentTab, clickTab] = useState(0);
 
@@ -16,7 +17,7 @@ function LectureDetailPage(props) {
       headers: { Authorization: `Token ${token}` },
     };
     axios
-      .get(`http://127.0.0.1:8000/class/${params.pk}/`, config)
+      .get(`http://127.0.0.1:8000/class/${class_id}/`, config)
       .then((response) => {
         setLectureDetails(response.data);
       })
