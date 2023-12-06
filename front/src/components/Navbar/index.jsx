@@ -39,6 +39,29 @@ export default function Navbar(props) {
     }
   }, []);
 
+  const post_logout = () => {
+    const token = sessionStorage.getItem("token");
+
+    axios
+      .post(
+        "http://127.0.0.1:8000/logout/",
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        sessionStorage.removeItem("auth");
+        sessionStorage.removeItem("token");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log("Error during logout:", error);
+      });
+  };
+
   return (
     <>
       <s.Wrapper>
@@ -75,7 +98,7 @@ export default function Navbar(props) {
             </s.Name>
             <s.NavBtn>
               <s.UpdateShedule>강의 시간표 수정</s.UpdateShedule>
-              <s.LogoutBtn>로그아웃</s.LogoutBtn>
+              <s.LogoutBtn onClick={post_logout}>로그아웃</s.LogoutBtn>
             </s.NavBtn>
           </s.RNameBox>
         </s.RightNav>
