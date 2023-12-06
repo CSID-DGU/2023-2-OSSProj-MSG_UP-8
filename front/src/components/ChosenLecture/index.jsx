@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import theme from "../../style/theme.js";
-import axios from "axios";
 
 export const Container = styled.div`
   display: flex;
