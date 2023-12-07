@@ -14,7 +14,7 @@ class Classserializer(serializers.ModelSerializer):
     class Meta:
         model = Classlist
         fields = ['id', 'name', 'professor', 'day1', 'day2', 'starttime1',
-                  'endtime1', 'starttime2', 'endtime2', 'place', 'major']
+                  'endtime1', 'starttime2', 'endtime2', 'place', 'classtime']
 
 
 class UserClasslistSerializer(serializers.ModelSerializer):
