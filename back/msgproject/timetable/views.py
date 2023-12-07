@@ -71,6 +71,32 @@ class UserTimetableViewSet(viewsets.ModelViewSet):
 
         return False
 
+
+    def create_timetable(self, user_timetable):
+        # 기존 시간표 구조를 초기화합니다.
+        timetable_structure = self.initialize_timetable()
+
+        # 사용자가 선택한 강의에 대해 시간표를 구성합니다.
+        for user_class in user_timetable.userclasses.all():
+            # 강의의 classtime 식별자를 사용하여 시간표에 강의를 배치합니다.
+            day_index = user_class.classtime // 100  # 예: 102 -> 1 (화요일)
+            time_index = user_class.classtime % 100  # 예: 102 -> 2 (09:30)
+            
+            # 시간표 배열에 강의명을 할당합니다.
+            timetable_structure[time_index][day_index] = user_class.name
+
+        return timetable_structure
+
+    def initialize_timetable(self):
+        # 사진에서 제시된 식별자에 따라 시간표 배열을 초기화합니다.
+        times = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30",
+                "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
+                "17:00", "17:30", "18:00"]
+        days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+        timetable_structure = [["" for _ in days] for _ in times]
+        return timetable_structure
+
+
     @transaction.atomic
     def create(self, request, *args, **kwargs):
 
@@ -98,7 +124,14 @@ class UserTimetableViewSet(viewsets.ModelViewSet):
                 # 충돌이 발생한 경우, 시간표를 삭제하고 에러 응답
                 user_timetable.delete()
                 return Response({'error': '시간표 충돌이 발생했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        # 시간표를 구성합니다.
+        complete_timetable = self.create_timetable(user_timetable)
+        # 시간표를 포함하여 시리얼라이저 인스턴스를 생성합니다.
+        serializer = self.get_serializer(instance=user_timetable)
+
+        return Response({'timetable': complete_timetable, **serializer.data}, status=status.HTTP_201_CREATED)
 
             # 시리얼라이저 인스턴스 생성
-        serializer = self.get_serializer(instance=user_timetable)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # serializer = self.get_serializer(instance=user_timetable)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)

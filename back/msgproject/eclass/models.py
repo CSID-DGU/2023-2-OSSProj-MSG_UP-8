@@ -21,6 +21,7 @@ class Classlist(models.Model):
     endtime2 = models.CharField(max_length=20, blank=True, null=True)
     place = models.CharField(max_length=100, blank=True, null=True)
     major = models.CharField(max_length=50, blank=False, null=False)
+    classtime = models.IntegerField(blank=True, null=True)
 
 
 class UserClasslist(models.Model):
