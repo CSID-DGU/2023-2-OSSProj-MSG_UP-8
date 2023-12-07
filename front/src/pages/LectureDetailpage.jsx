@@ -1,11 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import axios from "axios";
 import * as s from "../style/LectureDetail.style.js";
 import ChosenLecture from "../components/ChosenLecture";
 
 function LectureDetailPage(props) {
+  const params = useParams();
+  const class_id = params.pk;
+  const [lectureDetails, setLectureDetails] = useState(null);
+  const [lectures, setLectures] = useState([]);
   const [currentTab, clickTab] = useState(0);
+
+  useEffect(() => {
+    // 인증 토큰을 세션 스토리지에서 가져옵니다.
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Token ${token}` },
+    };
+
+    axios
+      .get("http://127.0.0.1:8000/register/userclasslist/", config)
+      .then((response) => {
+        // 서버에서 받은 강의 데이터를 상태에 설정합니다.
+        setLectures(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching lectures:", error);
+      });
+  }, []);
+
+  console.log(lectures);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Token ${token}` },
+    };
+    axios
+      .get(`http://127.0.0.1:8000/class/${class_id}/`, config)
+      .then((response) => {
+        setLectureDetails(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching lecture details", error);
+      });
+  }, [class_id]);
 
   const menuArr = [
     { name: "학습 목차", body: "1" },
@@ -135,17 +175,12 @@ function LectureDetailPage(props) {
       <s.Wrapper>
         <s.HeadContent>
           <s.TitleBox>
-            <s.LectureTitle>오픈소스 소프트웨어 프로젝트_01</s.LectureTitle>
+            <s.LectureTitle>{lectureDetails?.name}</s.LectureTitle>
           </s.TitleBox>
         </s.HeadContent>
 
         <s.ConArea>
-          <s.ChosenArea>
-            <ChosenLecture
-              title="오픈소스 소프트웨어 프로젝트"
-              content="선택한 강의들 들어가야함"
-            />
-          </s.ChosenArea>
+          <ChosenLecture title={lectureDetails?.name} content={lectures} />
         </s.ConArea>
 
         <s.BodyContent>

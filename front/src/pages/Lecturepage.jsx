@@ -57,18 +57,6 @@ function Lecturepage(props) {
     }
   }, []);
 
-  const get_classpick = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/register/classlist/");
-      console.log(response.data);
-      if (Array.isArray(response.data)) {
-        setLectures(response.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     if (userId) {
       get_classpick();
@@ -76,6 +64,18 @@ function Lecturepage(props) {
   }, [userId]);
 
   console.log("userID확인", userId);
+
+  const get_classpick = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/register/classlist/");
+      console.log("강의목록", response.data);
+      if (Array.isArray(response.data)) {
+        setLectures(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const post_classpick = async () => {
     try {
