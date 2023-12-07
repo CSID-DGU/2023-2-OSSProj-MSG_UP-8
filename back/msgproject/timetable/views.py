@@ -155,8 +155,8 @@ class UserTimetableViewSet(viewsets.ModelViewSet):
         except ObjectDoesNotExist:
             return Response({'error': 'UserProfile 인스턴스가 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-        # if UserTimetable.objects.filter(userprofile=user_profile).exists():
-        #     return Response({'error': '사용자는 이미 시간표를 가지고 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        if UserTimetable.objects.filter(userprofile=user_profile).exists():
+            return Response({'error': '사용자는 이미 시간표를 가지고 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         selected_classes = UserClasslist.objects.filter(user=user_profile)
         if not selected_classes.exists():
