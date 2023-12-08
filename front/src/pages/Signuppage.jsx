@@ -19,6 +19,10 @@ function Signup(props) {
     navigate(`/Signup`);
   };
 
+  const onClickhome = () => {
+    navigate(`/`);
+  };
+
   const [inputs, setInputs] = useState({
     student_id: "",
     password: "",
@@ -92,7 +96,7 @@ function Signup(props) {
     <>
       <s.Wrapper>
         <s.Container>
-          <s.TitleBox>
+          <s.TitleBox onClick={onClickhome}>
             <img src={eclass_logo} alt="" />
           </s.TitleBox>
 
