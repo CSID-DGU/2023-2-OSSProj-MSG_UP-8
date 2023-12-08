@@ -85,11 +85,25 @@ function Lecturepage(props) {
         userclass: Array.from(checkItems),
       };
 
-      const response = await axiosInstance.post(
+      // 첫 번째 API 호출
+      const response1 = await axiosInstance.post(
         "http://127.0.0.1:8000/register/userclasslist/",
         requestBody
       );
-      console.log(response.data);
+      console.log("1:", response1.data);
+
+      const secondRequestBody = {
+        userprofile: userId,
+        userclasses: Array.from(checkItems),
+      };
+
+      // 두 번째 API 호출
+      const response2 = await axiosInstance.post(
+        "http://127.0.0.1:8000/timetable/classlist/",
+        secondRequestBody
+      );
+      console.log("2", response2.data);
+
       navigate(`/`);
     } catch (err) {
       console.log(err);
