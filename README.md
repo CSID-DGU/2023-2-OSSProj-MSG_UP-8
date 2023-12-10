@@ -85,13 +85,13 @@ Django framework 및 React를 활용하여 동국대학교 ‘eclass’ 기능 �
   - 로그인 한 사용자의 user_id를 todo table에 추가로 반영될 수 있도록 수정
   - get 과정에 필터링을 진행하여 user 개인의 todo-list를 불러올 수 있도록 수정
 - [캘린더: 자바 스크립트 기반 오픈소스 웹앱 개발 달력 또는 일정, 스케줄러 구현 라이브러리](https://fullcalendar.io/)
-  - [Standard:MIT license.Premium:GPLv3](https://fullcalendar.io/license)
+  - Lisence [Standard:MIT license.Premium:GPLv3](https://fullcalendar.io/license)
   - Plugin 시스템을 사용하여 여러 기능을 활용함. 
   - 그 중, dayGridPlugin를 통해서 학사일정 db를 불러와 이벤트를 월별로 보여주는 그리드 뷰를 사용
   - 또한, interactionPlugin을 통해 react-modal 라이브러리와 연결하여 상호작용 이벤트 구현, 선택과 드래그 이벤트 기능 구현함으로 접근성 높일 수 있었음
   - @emotion/styled을 사용하여 직접 캘린더 스타일 커스텀
 - [시간표: Django/파이썬 프레임워크 기반 대학 강의 시간표를 구현 프로젝트](https://github.com/mHuzefa/TimetableGeneratorApp)
-  - [Apache License 2.0](https://github.com/mHuzefa/TimetableGeneratorApp/blob/master/LICENSE)
+  - Lisence [Apache License 2.0](https://github.com/mHuzefa/TimetableGeneratorApp/blob/master/LICENSE)
   - Timetable에 사용자가 입력한 강의 정보를 받아서 시간표를 구조화하는 API를 활용
   - 정보를 잘못 입력하는 경우에 대해 exception 메시지를 생성하는 로직을 활용
   - 선택 강의 수와 수업 일수를 바로 받아서 시간표를 구조화하는 원래의 구조에서, 기본 시간표 격자를 생성한 후 선택 강의를 격자 위에 배치하는 구조로 수정
