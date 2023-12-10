@@ -20,7 +20,7 @@ class Classlist(models.Model):
     starttime2 = models.CharField(max_length=20, blank=True, null=True)
     endtime2 = models.CharField(max_length=20, blank=True, null=True)
     place = models.CharField(max_length=100, blank=True, null=True)
-    major = models.CharField(max_length=50, blank=False, null=False)
+    classtime = models.CharField(max_length=50, blank=True, null=True)
 
 
 class UserClasslist(models.Model):
