@@ -90,8 +90,6 @@ function MainPage(props) {
       });
   }, []);
 
-  console.log("유저한 선택한 강의", lectures);
-
   return (
     <>
       <s.Wrapper>
