@@ -60,8 +60,9 @@ Django framework 및 React를 활용하여 동국대학교 ‘eclass’ 기능 �
 - MIT License
 
 ### Backend
-- django
-- django-restframework
+- django 23.3.1
+- django-restframework 23.3.1
+- MySQL 7.5
 
 ### Frontend
 - HTML5, CSS, JavaScript
@@ -187,6 +188,7 @@ Django framework 및 React를 활용하여 동국대학교 ‘eclass’ 기능 �
 <img src="https://github.com/CSID-DGU/2023-2-OSSProj-MSG_UP-8/assets/113084239/61746a6d-fb63-47a0-a5a7-e52773352d95">
 
 <br>
+
 - 사용자가 일정을 추가하고 싶은 날짜 클릭 또는 드래그 시, 모달창 생성
 - 위의 사진과 같이, 모달창을 통해 일정의 이름과 배경색을 사용자가 직접 설정하여 추가 가능
 - 이는 Event라는 테이블 내, 사용자(owner), 일정 이름(in_title), 시작 날짜(in_startdate), 마지막 날짜(in_enddate), 색상(color) 정보를 저장. 로그인을 시행하면 로그인한 유저 id로 필터링을 진행하여 이벤트 목록을 불러오도록 구현
