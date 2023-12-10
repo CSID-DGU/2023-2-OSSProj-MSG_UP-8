@@ -91,8 +91,8 @@ export const Item = styled.div`
 // 로그인시
 
 export const main_logout_btn = styled.button`
-  margin-left: 2.5%;
-  width: 200px;
+  margin-left: 1%;
+  width: 170px;
   height: 50px;
   background-color: ${theme.COLORS.DEEP_BLUE};
   font-weight: ${theme.FONT_WEIGHT.BOLD};

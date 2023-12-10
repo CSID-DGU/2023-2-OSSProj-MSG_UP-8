@@ -5,8 +5,10 @@ import axios from "axios";
 
 export default function TimeTable(props) {
   const [timetableData, setTimetableData] = useState([]);
-  const { pk: user_id } = useParams();
+  const params = useParams();
+  const user_id = params.pk;
 
+  console.log(user_id);
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const config = {
