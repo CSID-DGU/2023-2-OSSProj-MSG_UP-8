@@ -134,6 +134,7 @@ export const Main_Lecture_item = styled.div`
   overflow-y: scroll;
   width: 90%;
   margin-top: 5%;
+  margin-bottom: 5%;
   &::-webkit-scrollbar {
     display: none;
   }

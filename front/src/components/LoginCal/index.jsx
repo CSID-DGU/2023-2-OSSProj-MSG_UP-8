@@ -106,7 +106,6 @@ function LoginCal(props) {
     const token = sessionStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Token ${token}`;
-      // console.log(token)
     }
     return config;
   });
@@ -198,7 +197,9 @@ function LoginCal(props) {
           color: eventColor,
         };
 
-        setEvents([...events, newEvent]);
+        setEvents((prevEvents) => [...prevEvents, newEvent]);
+        const calendarApi = calendarRef.current.getApi();
+        calendarApi.refetchEvents();
         closeModal();
       } catch (err) {
         console.error("Error adding new event:", err);
@@ -217,48 +218,20 @@ function LoginCal(props) {
     openModal(clickInfo.event.start, clickInfo.event.end, clickInfo.event.id);
   };
 
-  // 이벤트 수정 api
-  // const updateEvent = async () => {
-  //   if (selectedEventId) {
-  //     try {
-  //       await axiosInstance.put(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`, {
-  //         in_title: newEventTitle,
-  //         in_startdate: newEventStart,
-  //         in_enddate: newEventEnd,
-  //         color: eventColor
-  //       });
-
-  // 클라이언트 상태 업데이트
-  //       const updatedEvents = events.map(event => {
-  //         if (event.id === selectedEventId) {
-  //           return { ...event, title: newEventTitle, start: newEventStart, end: newEventEnd, backgroundColor: eventColor };
-  //         }
-  //         return event;
-  //       });
-  //       setEvents(updatedEvents);
-  //       closeModal();
-  //     } catch (err) {
-  //       console.error('Error updating event:', err);
-  //     }
-  //   }
-  //   if (calendarRef.current) {
-  //     const calendarApi = calendarRef.current.getApi();
-  //     calendarApi.refetchEvents();
-  //   }
-  // };
-
   // 수정 이벤트 처리 - 바로 캘린더에 반영
   const updateEvent = async () => {
     if (selectedEventId && calendarRef.current) {
       try {
+        const updatedEvent = {
+          in_title: newEventTitle,
+          in_startdate: newEventStart,
+          in_enddate: newEventEnd,
+          color: eventColor,
+        };
+
         await axiosInstance.put(
           `http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`,
-          {
-            in_title: newEventTitle,
-            in_startdate: newEventStart,
-            in_enddate: newEventEnd,
-            color: eventColor,
-          }
+          updatedEvent
         );
 
         // 캘린더 API를 사용하여 이벤트 업데이트
@@ -268,33 +241,25 @@ function LoginCal(props) {
           event.setProp("title", newEventTitle);
           event.setDates(newEventStart, newEventEnd);
           event.setProp("backgroundColor", eventColor);
+          // ... 여기에서 필요한 다른 속성들을 설정합니다.
         }
+
+        // 이벤트 상태 업데이트
+        setEvents((prevEvents) => {
+          return prevEvents.map((e) => {
+            if (e.id === selectedEventId) {
+              return { ...e, ...updatedEvent };
+            }
+            return e;
+          });
+        });
+
         closeModal();
       } catch (err) {
         console.error("Error updating event:", err);
       }
     }
   };
-
-  // 이벤트 삭제 api
-  // const deleteEvent = async () => {
-  //   if (selectedEventId) {
-  //     try {
-  //       await axiosInstance.delete(`http://127.0.0.1:8000/logincals/events/detail/${selectedEventId}/`);
-
-  //       // 클라이언트 상태 업데이트
-  //       const filteredEvents = events.filter(event => event.id !== selectedEventId);
-  //       setEvents(filteredEvents);
-  //       closeModal();
-  //     } catch (err) {
-  //       console.error('Error deleting event:', err);
-  //     }
-  //   }
-  //   if (calendarRef.current) {
-  //     const calendarApi = calendarRef.current.getApi();
-  //     calendarApi.refetchEvents();
-  //   }
-  // };
 
   // 삭제 이벤트처리 - 바로 캘린더에 반영
   const deleteEvent = async () => {
@@ -316,6 +281,26 @@ function LoginCal(props) {
       }
     }
   };
+
+  function renderEventContent(eventInfo) {
+    return (
+      <div
+        style={{
+          backgroundColor: eventInfo.event.backgroundColor,
+          cursor: "pointer",
+          width: "100%",
+          color: "white",
+          borderRadius: "3px",
+          padding: "1px 1px",
+          marginBottom: "1.5%",
+          fontWeight: "500",
+          fontSize: "1.5rem",
+        }}
+      >
+        <i>{eventInfo.event.title}</i>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
@@ -359,6 +344,10 @@ function LoginCal(props) {
             alignItems: "center",
             justifyContent: "space-around",
             flexDirection: "column",
+            zIndex: "1000",
+          },
+          overlay: {
+            zIndex: "900",
           },
         }}
       >
@@ -423,12 +412,3 @@ function LoginCal(props) {
 }
 
 export default LoginCal;
-
-function renderEventContent(eventInfo) {
-  return (
-    <div style={{ backgroundColor: eventInfo.event.backgroundColor }}>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </div>
-  );
-}
