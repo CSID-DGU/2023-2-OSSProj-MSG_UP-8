@@ -5,13 +5,13 @@ import DGU_BG from "../assets/image/DGU_BG.jpg";
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
   background-color: ${theme.COLORS.BACKGROUND_WHITE};
   background-image: url(${DGU_BG});
   background-repeat: no-repeat;
-  background-position: 100% 30vh;
-  background-size: 100% 70vh;
+  background-position: right 30% bottom;
+  background-size: 100% 70%;
 `;
 
 export const Container = styled.div`
@@ -61,7 +61,7 @@ export const Item = styled.div`
   flex-direction: column;
   border-radius: 15px;
   width: 100%;
-  height: 300px;
+  height: 400px;
 
   &:nth-child(1) {
     background-color: ${theme.COLORS.MAIN_ORANGE};
@@ -134,12 +134,18 @@ export const Main_Lecture_item = styled.div`
   overflow-y: scroll;
   width: 90%;
   margin-top: 5%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const Main_LogoutCal_item = styled.div`
   height: 100%;
   width: 90%;
   padding-top: 5%;
   padding-bottom: 5%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const Main_TimeTable_item = styled.div`
   width: 90%;
@@ -147,9 +153,15 @@ export const Main_TimeTable_item = styled.div`
   height: 100%;
   margin-top: 2%;
   margin-bottom: 2%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const Main_Todo_item = styled.div`
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   height: 100%;
   display: flex;
   align-items: center;

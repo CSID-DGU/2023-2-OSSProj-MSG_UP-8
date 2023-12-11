@@ -24,6 +24,8 @@ export default function TimeTable(props) {
       });
   }, [user_id]);
 
+  console.log("시간표 유저", user_id);
+
   console.log("시간표 데이터", timetableData);
 
   const times = [
