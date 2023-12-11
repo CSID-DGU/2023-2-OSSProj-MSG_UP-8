@@ -34,6 +34,22 @@ function Lecturepage(props) {
     setCheckItems(newCheckItems);
   };
 
+  const get_classpick = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/register/classlist/");
+      console.log("강의목록", response.data);
+      if (Array.isArray(response.data)) {
+        setLectures(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    get_classpick();
+  }, []);
+
   useEffect(() => {
     const auth = sessionStorage.getItem("auth");
     if (auth === "true") {
@@ -48,34 +64,12 @@ function Lecturepage(props) {
         .then((response) => {
           const userId = response.data.id;
           setUserId(userId);
-
-          get_classpick();
         })
         .catch((error) => {
           console.log("Error fetching user data:", error);
         });
     }
   }, []);
-
-  useEffect(() => {
-    if (userId) {
-      get_classpick();
-    }
-  }, [userId]);
-
-  console.log("userID확인", userId);
-
-  const get_classpick = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/register/classlist/");
-      console.log("강의목록", response.data);
-      if (Array.isArray(response.data)) {
-        setLectures(response.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const post_classpick = async () => {
     try {
@@ -84,11 +78,6 @@ function Lecturepage(props) {
         user: userId,
         userclass: Array.from(checkItems),
       };
-
-      const response = await axiosInstance.post(
-        "http://127.0.0.1:8000/register/userclasslist/",
-        requestBody
-      );
       const response1 = await axiosInstance.post(
         "http://127.0.0.1:8000/register/userclasslist/",
         requestBody
