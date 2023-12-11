@@ -5,6 +5,7 @@ import Signup from "./pages/Signuppage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LectureChoice from "./pages/Lecturepage";
 import LectureDetailPage from "./pages/LectureDetailpage";
+import TimeTable from "./components/TimeTable/index.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/lecture" element={<LectureChoice />} />
         <Route path="/class/:pk" element={<LectureDetailPage />} />
+        <Route path="/timetable/classlist/:pk" element={<TimeTable />} />
       </Routes>
     </BrowserRouter>
     // </GlobalStyles>

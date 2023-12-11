@@ -5,10 +5,9 @@ import axios from "axios";
 
 export default function TimeTable(props) {
   const [timetableData, setTimetableData] = useState([]);
-  const params = useParams();
-  const user_id = params.pk;
+  const { pk: user_id } = useParams();
 
-  console.log(user_id);
+  console.log("sdf", user_id);
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const config = {
@@ -22,9 +21,9 @@ export default function TimeTable(props) {
       .catch((error) => {
         console.error("Error fetching lecture details", error);
       });
-  }, [user_id]);
+  }, []);
 
-  console.log("시간표 유저", user_id);
+  // console.log("시간표 유저", user_id);
 
   console.log("시간표 데이터", timetableData);
 
