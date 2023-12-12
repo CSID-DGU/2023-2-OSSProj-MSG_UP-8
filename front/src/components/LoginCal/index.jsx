@@ -198,14 +198,21 @@ function LoginCal(props) {
         };
 
         setEvents((prevEvents) => [...prevEvents, newEvent]);
-        const calendarApi = calendarRef.current.getApi();
-        calendarApi.refetchEvents();
+        // const calendarApi = calendarRef.current.getApi();
+        // // calendarApi.refetchEvents();
         closeModal();
       } catch (err) {
         console.error("Error adding new event:", err);
       }
     }
   };
+
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (calendarApi) {
+      calendarApi.refetchEvents();
+    }
+  }, [events]);
 
   const handleEventClick = (clickInfo) => {
     console.log("id=", clickInfo.event.id);
@@ -235,13 +242,12 @@ function LoginCal(props) {
         );
 
         // 캘린더 API를 사용하여 이벤트 업데이트
-        const calendarApi = calendarRef.current.getApi();
+        const calendarApi = calendarRef.current?.getApi();
         let event = calendarApi.getEventById(selectedEventId);
         if (event) {
           event.setProp("title", newEventTitle);
           event.setDates(newEventStart, newEventEnd);
           event.setProp("backgroundColor", eventColor);
-          // ... 여기에서 필요한 다른 속성들을 설정합니다.
         }
 
         // 이벤트 상태 업데이트
@@ -254,6 +260,7 @@ function LoginCal(props) {
           });
         });
 
+        calendarApi.refetchEvents();
         closeModal();
       } catch (err) {
         console.error("Error updating event:", err);
@@ -270,11 +277,12 @@ function LoginCal(props) {
         );
 
         // 캘린더 API를 사용하여 이벤트 삭제
-        const calendarApi = calendarRef.current.getApi();
+        const calendarApi = calendarRef.current?.getApi();
         let event = calendarApi.getEventById(selectedEventId);
         if (event) {
           event.remove();
         }
+
         closeModal();
       } catch (err) {
         console.error("Error deleting event:", err);
