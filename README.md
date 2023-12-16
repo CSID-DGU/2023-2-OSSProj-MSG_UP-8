@@ -3,11 +3,6 @@
 <br>
 <br>
 
-## 시연영상
-<br>
-<br>
-
-
 ## 프로젝트명
 
 Django framework 및 React를 활용하여 동국대학교 ‘eclass’ 기능 개선
